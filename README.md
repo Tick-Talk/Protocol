@@ -1,6 +1,3 @@
-# Protocol
-A protocol for the server and clients to communicate
-
 # General Rules
 1. The first character of any data sent signifies what type of data is being sent (this will be referred to as the "signifier" below)
 2. The actual data being sent is JSON, which is appended to the end of the signifier (described in the next section for each specific situation)
@@ -11,7 +8,7 @@ A protocol for the server and clients to communicate
 7. Encryption is left up to the client and server developer(s) to decide upon
 
 # Each type of valid data  
-*** Messages ***  
+** Messages **  
 - Messages must have the signifier 'M' (the capital letter).
 - *For clients sending messages to servers*
 - The data's JSON format: `{"CHATROOM":"Chatroom goes here", "MESSAGE": "Message goes here"}`
