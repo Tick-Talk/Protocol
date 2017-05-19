@@ -1,7 +1,7 @@
 # Protocol
 A protocol for the server and clients to communicate
 
-** General Rules **
+# General Rules
 1. The first character of any data sent signifies what type of data is being sent (this will be referred to as the "signifier" below)
 2. The actual data being sent is JSON, which is appended to the end of the signifier (described in the next section for each specific situation)
 3. Anything that is malformed or is in any other way invalid for the context should be ignored (unless an explicit exception is defined in this protocol)
@@ -10,8 +10,8 @@ A protocol for the server and clients to communicate
 6. Messages must be dropped after one week (+/- a day). (One week is 604800 seconds)
 7. Encryption is left up to the client and server developer(s) to decide upon
 
-** Each type of valid data **  
-** Messages **  
+# Each type of valid data  
+*** Messages ***  
 - Messages must have the signifier 'M' (the capital letter).
 - *For clients sending messages to servers*
 - The data's JSON format: `{"CHATROOM":"Chatroom goes here", "MESSAGE": "Message goes here"}`
