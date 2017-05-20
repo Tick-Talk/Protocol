@@ -19,6 +19,15 @@
 - The data's JSON format: `{"CHATROOM":"Chatroom goes here", "NICKNAME":"Nickname goes here", "MESSAGE": "Message goes here"}`
 - Complete example of a valid message being sent from a server to a client: `M{"CHATROOM":"main", "NICKNAME":"ja boi", "MESSAGE": "hello"}`
 
+** Connected Chatroom List **
+- Chatroom lists must have the signifier 'C' (the captial letter)
+- A chatroom list must be sent to a server BEFORE any messages are sent from the client
+- If a user sends a message to a chatroom they aren't apart of, a server should ignore the message. A client must send their ENTIRE chatroom list whenever it changes (or on connection to the server)
+- A server should make sure there are no duplicate nicknames. If a user tries to use a duplicate nickname, a server should send an error message back using the "SERVER" nickname.
+- A nickname must be set for each chatroom (see the below JSON format)
+- Servers should have a limit for how often a user can change their nickname for a specific chatroom, but this is not required.
+- The data's JSON format: (see https://jsonlint.com/?json=%7B%0D%0A%09%22LIST%22%3A%5B%7B%0D%0A%09%09%09%22CHATROOM%22%3A%22Chatroom%20goes%20here%22%2C%0D%0A%09%09%09%22NICKNAME%22%3A%22Nickname%20goes%20here%22%0D%0A%09%09%7D%2C%0D%0A%09%09%7B%0D%0A%09%09%09%22CHATROOM%22%3A%22Chatroom%202%20goes%20here%22%2C%0D%0A%09%09%09%22NICKNAME%22%3A%22Nickname%202%20goes%20here%22%0D%0A%09%09%7D%0D%0A%09%5D%0D%0A%7D)
+
+
 The following will come soon:
-- Chatroom / nickname list (should have a time limit for how often changes can occur, no duplicate nicks)  
-- Request for messages
+- Requests for messages and getting the requested messages (this will probably be in a future release)
