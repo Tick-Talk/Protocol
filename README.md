@@ -18,4 +18,4 @@ In order to send and receive messages, a client must first connect to at least o
 
 # Requesting messages
 `{ "type":"request", "room":"<ROOM_GOES_HERE>", "min":<MIN_ID_REQUESTING>, "max":<MAX_ID_REQUESTING> }`
-- Servers should reply with any messages within the specified range
+- Servers should reply with any messages within the specified range, inclusive
