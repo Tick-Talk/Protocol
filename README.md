@@ -19,3 +19,8 @@ In order to send and receive messages, a client must first connect to at least o
 # Requesting messages
 `{ "type":"request", "room":"ROOM_GOES_HERE", "min":MIN_ID_REQUESTING, "max":MAX_ID_REQUESTING }`
 - Servers should reply with any messages within the specified range, inclusive
+
+# Requesting the current ID of messages being sent
+`{ "type":"requestID" }`
+- Servers should reply with the current ID, in the form of: `{ "type":"currentID", "id":ID_NUM_GOES_HERE }`
+- The returned result should be used for the upper-bound of a message request
