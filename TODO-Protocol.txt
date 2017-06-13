@@ -1,0 +1,22 @@
+# FOR USE IN THE FUTURE
+
+# Connecting to the server
+In order to send and receive messages, a client must first connect to at least one chatroom.
+
+# Connecting to a chat room
+`{ "type":"connect", "room":"ROOM_GOES_HERE", "name":"NAME_GOES_HERE" }`
+
+# Server sending unencrypted errors / messages to clients
+`{ "type":"server-message", "room":"ROOM_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
+
+# Messages
+`{ "type":"message", "room":"ROOM_GOES_HERE", "timestamp":"TIME_STAMP", "name":"NAME_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
+- Servers should send an error back if the nickname is already taken
+- TODO timestamp description (milliseconds thing) (is a string for int compatibility)
+- Messages should be destroyed one week after the client sends
+- For messages from client to server, timestamp and name should be null (server will process both)
+
+# Requesting messages
+`{ "type":"request", "room":"ROOM_GOES_HERE", "min":"START_TIME", "max":"STOP_TIME" }`
+- Servers should reply with any messages within the specified range, inclusive
+- Times will be strings representing miliseconds elapsed
