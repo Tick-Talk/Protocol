@@ -4,9 +4,6 @@ In order to send and receive messages, a client must first connect to at least o
 # Connecting to a chat room
 `{ "type":"connect", "room":"ROOM_GOES_HERE", "name":"NAME_GOES_HERE" }`
 
-# Disconnecting from a chat room
-`{ "type":"disconnect", "room":"ROOM_GOES_HERE" }`
-
 # Messages
 `{ "type":"message", "room":"ROOM_GOES_HERE", "id":ID_NUM_GOES_HERE, "name":"NAME_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
 - The nickname "SERVER" is dedicated for the server, which can be used for errors
