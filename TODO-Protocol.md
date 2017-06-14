@@ -9,14 +9,14 @@
 # Server sending unencrypted errors / messages to clients
 `{ "type":"server-message", "room":"ROOM_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
 - Only servers send this data type
-- Server messages should not be saved by clients, and should only be used as a real-time error or message
+- Server messages should not be saved by clients, and should only be displayed as a real-time error/message
 
 # Messages
 `{ "type":"message", "room":"ROOM_GOES_HERE", "timestamp":"TIME_STAMP", "name":"NAME_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
 - TIME_STAMP is a field the server calculates that represents the time in milliseconds that the message was received
 - The server may only process one message per millisecond  (thus no messages can have duplicate timestamps)
 - TIME_STAMP needs to be sent as a string for compatibility (otherwise the value would exceed INT_MAX)
-- Messages should be destroyed one week after the client sends
+- Messages need be destroyed one week after they are received by the server
 - For messages from client to server, timestamp and name should be null (server will process both)
 - A connect message needs to be sent to the server before any real-time messages are to be sent or received
 
