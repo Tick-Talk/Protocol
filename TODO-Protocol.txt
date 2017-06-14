@@ -9,6 +9,7 @@
 # Server sending unencrypted errors / messages to clients
 `{ "type":"server-message", "room":"ROOM_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
 - Only servers send this data type
+- Server messages should not be saved by clients, and should only be used as a real-time error or message
 
 # Messages
 `{ "type":"message", "room":"ROOM_GOES_HERE", "timestamp":"TIME_STAMP", "name":"NAME_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
