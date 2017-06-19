@@ -1,23 +1,26 @@
-# Connecting to the server
-In order to send and receive messages, a client must first connect to at least one chatroom.
-
 # Connecting to a chat room
 `{ "type":"connect", "room":"ROOM_GOES_HERE", "name":"NAME_GOES_HERE" }`
+- There are no reserved nicknames
+- If a nickname is already taken, a server should send back a notice using a server message to say that
+- This type of data needs to be sent from a client before any messages are sent to and from
+
+# Server sending unencrypted errors / messages to clients
+`{ "type":"server-message", "room":"ROOM_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
+- Only servers send this data type
+- Server messages should not be saved by clients, and should only be displayed as a real-time error/message
 
 # Messages
-`{ "type":"message", "room":"ROOM_GOES_HERE", "id":ID_NUM_GOES_HERE, "name":"NAME_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
-- The nickname "SERVER" is dedicated for the server, which can be used for errors
-- Servers should send an error back if the nickname is already taken
-- The ID is the number that the server creates and represents a message (0 <= ID <= 999,999,999); if 1 billion is reached, ID should be reset to 0
-- Servers should drop a message one week after receiving
-- Clients should drop a message one week after receiving
-- For messages from client to server, ID and name should be null
+`{ "type":"message", "room":"ROOM_GOES_HERE", "timestamp":"TIME_STAMP", "name":"NAME_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
+- TIME_STAMP is a field the server calculates that represents the time in milliseconds that the message was received
+- The server may only process one message per millisecond  (thus no messages can have duplicate timestamps)
+- TIME_STAMP needs to be sent as a string for compatibility (otherwise the value would exceed INT_MAX)
+- Messages need be destroyed one week after they are received by the server
+- For messages from client to server, timestamp and name should be null (server will process both)
+- A connect message needs to be sent to the server before any real-time messages are to be sent or received
 
 # Requesting messages
-`{ "type":"request", "room":"ROOM_GOES_HERE", "min":MIN_ID_REQUESTING, "max":MAX_ID_REQUESTING }`
-- Servers should reply with any messages within the specified range, inclusive
-
-# Requesting the current ID of messages being sent
-`{ "type":"requestID" }`
-- Servers should reply with the current ID, in the form of: `{ "type":"currentID", "id":ID_NUM_GOES_HERE }`
-- The returned result should be used for the upper-bound of a message request
+`{ "type":"request", "room":"ROOM_GOES_HERE", "min":"START_TIME", "max":"END_TIME" }`
+- Servers should reply with any messages within the specified range (of START_TIME to END_TIME), inclusive, using the above message protocol
+- START_TIME is a string representing the lower boundary time of messages being requested
+- END_TIME is a string representing the upper boundary time of messages being requested
+- A user does not need to be connected to a room to request messages from that room
