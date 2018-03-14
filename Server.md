@@ -1,8 +1,8 @@
 # Accounts
-Accounts can be stored in any way desired on the server. However, a SQL database would be a good idea.
+Accounts can be stored in any way desired on the server. However, a SQL database is desired.
 
 Each user account will have the following information associated it:
-* Username
+* Username (only one username can exist on a server)
 * Hashed password (benchmark for 1 second of iterations)
 * Encrypted private key (from a key that is password-derived)
 * Public key
@@ -10,6 +10,9 @@ Each user account will have the following information associated it:
 * Group Chats & Private Messages (encrypted to just one string with a key that is password-derived)
   * Chat ID
   * Chat key
+* Privelege (either normal or admin)
+  * Every user is normal by default
+  * A user cannot be promoted to admin by a command given over the network, only local changes
 
 # Rooms
 Rooms are a place where any user with an account can connect–and thus are not encrypted. Room names can only contain spaces, A-Z (only uppercase), and 0-9. A server should ignore all other requests relating to rooms that do not match the above requirements.
