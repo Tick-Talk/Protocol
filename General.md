@@ -1,3 +1,5 @@
-Use libsodium for encryption.
+# Use libsodium for all application needs
 
-More on this page soon to come
+# Constants to use for password hashing
+SODIUM_CRYPTO_PWHASH_OPSLIMIT_SENSITIVE	
+SODIUM_CRYPTO_PWHASH_MEMLIMIT_SENSITIVE
