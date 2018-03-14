@@ -9,3 +9,10 @@
 * sodium_crypto_pwhash_str_verify
 * SODIUM_CRYPTO_PWHASH_OPSLIMIT_SENSITIVE	
 * SODIUM_CRYPTO_PWHASH_MEMLIMIT_SENSITIVE
+
+
+
+https://dev.to/paragonie/libsodium-quick-reference
+https://paragonie.com/book/pecl-libsodium
+https://paragonie.com/book/pecl-libsodium/read/05-publickey-crypto.md
+https://paragonie.com/blog/2017/06/libsodium-quick-reference-quick-comparison-similar-functions-and-which-one-use
