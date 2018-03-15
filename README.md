@@ -6,3 +6,5 @@
 TODO: Describe Tick Talk
 
 For more information on how Tick Talk operates, open up the corresponding file of your query in this repository.
+
+https://github.com/tchapi/markdown-cheatsheet
