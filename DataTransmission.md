@@ -18,11 +18,11 @@ All data sent is encrypted with libsodium (with the exception being the creation
 			<th>Value</th>
 		</tr>
 		<tr>
-			<td>`username`</td>
+			<td><code>username</code></td>
 			<td>The username of the user trying to login</td>
 		</tr>
 		<tr>
-			<td>`password`</td>
+			<td><code>password</code></td>
 			<td>The password of the user trying to login</td>
 		</tr>
 	</table>
