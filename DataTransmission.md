@@ -10,10 +10,10 @@ All data sent is encrypted with libsodium (with the exception being the creation
 
 #### `Login`
 * As this type implies, it is used for a client to login to a specific account
-* <details>
+<details>
 <summary>Format</summary>
-Field | Value
------ | -----
+Field    | Value
+-----    | -----
 username | The username of the user trying to login
 password | The password of the user trying to login
 </details>
