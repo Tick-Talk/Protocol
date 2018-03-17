@@ -9,7 +9,7 @@ All data sent is encrypted with libsodium (with the exception being the creation
 * TBD
 
 <details>
-	<summary><h4><code>Login</code></h4></summary>
+	<summary><strong><code>Login</code></strong></summary>
 	<table>
 		<tr>
 			<th>Field</th>
