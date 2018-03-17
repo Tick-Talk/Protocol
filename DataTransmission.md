@@ -10,21 +10,31 @@ All data sent is encrypted with libsodium (with the exception being the creation
 
 #### `Login`
 * As this type implies, it is used for a client to login to a specific account
-* Format: `{"username":"<replace>","password":"<replace>"}`
+* <details>
+<summary>Format</summary>
+Field | Value
+----- | -----
+username | The username of the user trying to login
+password | The password of the user trying to login
+</details>
 
 #### `UserData`
 * This type represents a user's *public* data
   * See the next few entries for private information a client can use
 * If `UserData` is sent from a client, the server returns the `UserData` of the user the client specifies
-* Format: 
+* Format: `{"username":""}`
 
 #### `SetMyData`
-* Info
-* Format:
+* This type sets the logged in user's data to whatever is specified in the JSON
+* A server should only acknowledge this type if the client is already logged-in as the user in question and all fields are valid
+* If anything is invalid (such as a duplicate username), a server should send a `ServerError` back
+* Format: `{"username":"<replace--this field is to change username>","picture":"<replace--Base64 of picture>"}`
+* TODO: add any other things to this
 
 #### `GetMyData`
-* Info
-* Format:
+* This gets all of the needed private data of the user logged in
+* A server should automatically send this type to a user after a successful login so a client can update itself
+* Format: `{"username":}`
 
 #### `ServerMessage`
 * Info
@@ -79,33 +89,3 @@ All data sent is encrypted with libsodium (with the exception being the creation
 **BanUser**
 
 **DisplayServerMessage**
-
-
-
-# OLD PROTOCOL FOR REFERENCE(DO NOT FOLLOW):
-# Connecting to a chat room
-`{ "type":"connect", "room":"ROOM_GOES_HERE", "name":"NAME_GOES_HERE" }`
-- There are no reserved nicknames
-- If a nickname is already taken, a server should send back a notice using a server message to say that
-- This type of data needs to be sent from a client before any messages are sent to and from
-
-# Server sending unencrypted errors / messages to clients
-`{ "type":"server-message", "room":"ROOM_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
-- Only servers send this data type
-- Server messages should not be saved by clients, and should only be displayed as a real-time error/message
-
-# Messages
-`{ "type":"message", "room":"ROOM_GOES_HERE", "timestamp":"TIME_STAMP", "name":"NAME_GOES_HERE", "msg":"MESSAGE_GOES_HERE" }`
-- TIME_STAMP is a field the server calculates that represents the time in milliseconds that the message was received
-- The server may only process one message per millisecond  (thus no messages can have duplicate timestamps)
-- TIME_STAMP needs to be sent as a string for compatibility (otherwise the value would exceed INT_MAX)
-- Messages need be destroyed one week after they are received by the server
-- For messages from client to server, timestamp and name should be null (server will process both)
-- A connect message needs to be sent to the server before any real-time messages are to be sent or received
-
-# Requesting messages
-`{ "type":"request", "room":"ROOM_GOES_HERE", "min":"START_TIME", "max":"END_TIME" }`
-- Servers should reply with any messages within the specified range (of START_TIME to END_TIME), inclusive, using the above message protocol
-- START_TIME is a string representing the lower boundary time of messages being requested
-- END_TIME is a string representing the upper boundary time of messages being requested
-- A user does not need to be connected to a room to request messages from that room
