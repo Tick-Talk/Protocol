@@ -9,7 +9,9 @@ All data sent is encrypted with libsodium (with the exception being the creation
 * TBD
 
 #### `Login`
-* As this type implies, it is used for a client to login to a specific account
+<ul>
+	<li>As this type implies, it is used for a client to login to a specific account</li>
+	<li>
 <details>
 	<summary>Format</summary>
 	<table>
@@ -27,7 +29,7 @@ All data sent is encrypted with libsodium (with the exception being the creation
 		</tr>
 	</table>
 </details>
-
+</li>
 #### `UserData`
 * This type represents a user's *public* data
   * See the next few entries for private information a client can use
