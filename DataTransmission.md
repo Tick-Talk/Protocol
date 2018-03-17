@@ -1,19 +1,38 @@
 # Format
-All data sent is in the form of `DataType{JSON}` (a string), where:
+All data sent is encrypted with libsodium (with the exception being the creation of the encrypted tunnel). However, decrypted data has to be in the form of `DataType{JSON}` (a string), where:
 * `DataType` is a string representing the type of data that the JSON contains (see below)
 * `{JSON}` is JSON that represents the relevant data being transmitted
 
 # Data Types and Their JSON
 ## Authentication & General Needs
-**SecureTunnel**
+#### `SecureTunnel`
+* TBD
 
-**Login**
+#### `Login`
+* As this type implies, it is used for a client to login to a specific account
+* Format: `{"username":"<replace>","password":"<replace>"}`
 
-**UserData**
+#### `UserData`
+* This type represents a user's *public* data
+  * See the next few entries for private information a client can use
+* If `UserData` is sent from a client, the server returns the `UserData` of the user the client specifies
+* Format: 
 
-**ServerMessage**
+#### `SetMyData`
+* Info
+* Format:
 
-**ServerError**
+#### `GetMyData`
+* Info
+* Format:
+
+#### `ServerMessage`
+* Info
+* Format:
+
+#### `ServerError`
+* Info
+* Format:
 
 ## Rooms
 **AddRoom**
@@ -21,6 +40,10 @@ All data sent is in the form of `DataType{JSON}` (a string), where:
 **DeleteRoom**
 
 **RoomMessage**
+* include replyTo JSON
+
+**RoomFile**
+* include caption JSON
 
 **RequestRoomMessages**
 
@@ -32,13 +55,23 @@ All data sent is in the form of `DataType{JSON}` (a string), where:
 **RemoveFromGroup**
 
 **GroupMessage**
+* include replyTo JSON
+
+#### `GroupFile`
+* include caption
 
 **RequestGroupMessages**
 
 ## PMs
 **PrivateMessage**
+* Info INCLUDE replyTo JSON
+* Format:
 
 **RequestPrivateMessages
+
+#### `PrivateFile`
+* Info INCLUDE CAPTION
+* Format:
 
 ## Administration (can only be used by admins)
 **KickUser**
