@@ -8,27 +8,8 @@ All data sent is encrypted with libsodium (with the exception being the creation
 #### `SecureTunnel`
 * TBD
 
-<details>
-	<summary><strong><code>Login</code></strong></summary>
-	<table>
-		<tr>
-			<th>Field</th>
-			<th>Value</th>
-		</tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The username of the user trying to login</td>
-		</tr>
-		<tr>
-			<td><code>password</code></td>
-			<td>The password of the user trying to login</td>
-		</tr>
-	</table>
-</details>
-
 #### `Login`
 * As this type implies, it is used for a client to login to a specific account
-TODO: MAKE EACH TYPE HAVE ITS OWN DROPDOWN
 <details>
 	<summary>Format</summary>
 	<table>
