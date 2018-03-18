@@ -12,6 +12,6 @@ https://github.com/tchapi/markdown-cheatsheet
 
 Room messages are not encrypted and should be stored in some random database
 
-Group chat messages are encrypted with a client generated key that is sent to other group members on addition or deletion of other members
+Group chat messages are encrypted with a client generated key that is sent to other group members on addition or deletion of other members. messages stored in some random database
 
 PM messages are encrypted with the other user's public key and are added directly to their account file on the account database
