@@ -247,27 +247,28 @@ All data sent is encrypted with libsodium (with the exception being the creation
 </details>
 
 ## Group Chats
-**MakeGroup**
+#### `MakeGroup`
 
-**AddToGroup**
+#### `AddToGroup`
 
-**RemoveFromGroup**
+#### `RemoveFromGroup`
 * server should check to see if nobody left, if nobody left, delete group
 
-**GroupMessage**
+#### `GroupMessage`
 * include replyTo JSON
 
 #### `GroupFile`
 * include caption
 
-**RequestGroupMessages**
+#### `RequestGroupMessages`
 
 ## PMs
-**PrivateMessage**
+#### `PrivateMessage`
 * Info INCLUDE replyTo JSON
 * Format:
 
-**RequestPrivateMessages
+#### `RequestPrivateMessages`
+* Server should store as a part of a user's data
 
 #### `PrivateFile`
 * Info INCLUDE CAPTION
