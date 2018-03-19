@@ -248,8 +248,45 @@ All data sent is encrypted with libsodium (with the exception being the creation
 
 ## Group Chats
 #### `MakeGroup`
+* This type is sent to a server from a client to create a new group chat
+  * A client only fills out the `groupName` field
+* Upon receiving the request, a server should create the group and add the user who requested the creation of the group to the group
+  * A server then responds to the client with a `MakeGroup` with all fields filled out
+* <details>
+	<summary>Format</summary>
+	<table>
+		<tr><th>Field</th><th>Value</th></tr>
+		<tr>
+			<td><code>groupName</code></td>
+			<td>The desired name for this group chat</td>
+		</tr>
+		<tr>
+			<td><code>groupID</code></td>
+			<td>The server-created identification of this group chat</td>
+		</tr>
+	</table>
+</details>
 
 #### `AddToGroup`
+* This type is used to add a user to a group chat
+* <details>
+	<summary>Format</summary>
+	<table>
+		<tr><th>Field</th><th>Value</th></tr>
+		<tr>
+			<td><code>groupID</code></td>
+			<td>The server-created group chat ID</td>
+		</tr>
+		<tr>
+			<td><code>username</code></td>
+			<td>The username of the user being added to the group chat</td>
+		</tr>
+		<tr>
+			<td><code>key</code></td>
+			<td>The key to decrypt group chat messages encrypted with the user being added's public key</td>
+		</tr>
+	</table>
+</details>
 
 #### `RemoveFromGroup`
 * server should check to see if nobody left, if nobody left, delete group
