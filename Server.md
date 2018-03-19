@@ -1,3 +1,10 @@
+Room messages are not encrypted and should be stored in some random database
+
+Group chat messages are encrypted with a client generated key that is sent to other group members on addition or deletion of other members. messages stored in some random database
+
+PM messages are encrypted with the other user's public key and are added directly to their account file on the account database
+
+
 # Accounts
 Accounts can be stored in any way desired on the server. However, a SQL database is desired.
 
@@ -13,6 +20,7 @@ Each user account will have the following information associated it:
 * Privelege (either normal or admin)
   * Every user is normal by default
   * A user cannot be promoted to admin by a command given over the network, only local changes
+* TODO: PMs
 
 # Rooms
 Rooms are a place where any user with an account can connect–and thus are not encrypted. Room names can only contain spaces, A-Z (only uppercase), and 0-9. A server should ignore all other requests relating to rooms that do not match the above requirements.
