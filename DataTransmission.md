@@ -122,7 +122,7 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 	</table>
 </details>
 
-## User Accounts (TODO: ADD ANY OTHER FIELDS CURRENTLY MISSING)
+## User Accounts
 #### `UserData`
 * This type represents a user's data
   * It is commonly sent from a server to a client in order to refresh the client's cache and UI
