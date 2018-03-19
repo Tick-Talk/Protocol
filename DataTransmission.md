@@ -75,7 +75,7 @@ All data sent is encrypted with libsodium (with the exception being the creation
 * To come in a later version (DO NOT IMPLEMENT):
   * KickUser (for a specified period of time)
   * DisplayServerMessage
-
+SERVER SENDS USEDATA BACK
 #### `AddRoom` (TODO: FIX ME)
 * This type adds a room to a user's list of subscribed rooms
 * <details>
@@ -137,7 +137,7 @@ All data sent is encrypted with libsodium (with the exception being the creation
 		</tr>
 		<tr>
 			<td><code>groups</code></td>
-			<td>(PRIVATE FIELD) A map of group IDs to private keys that the user can access</td>
+			<td>(PRIVATE FIELD) An array of 3-element arrays, which all feature a `groupID`, `groupName`, and `groupKey`</td>
 		</tr>
 		<tr>
 			<td><code>privateMessages</code></td>
@@ -150,6 +150,7 @@ All data sent is encrypted with libsodium (with the exception being the creation
 * This type sets the logged in user's data to whatever is specified in the JSON
 * A server should only acknowledge this type if the client is already logged-in as the user in question and all fields are valid
 * If anything is invalid (such as a duplicate username), a server should send a `ServerError` back
+* If the request is processed successfully, then a server should send the user's `UserData` back so it can be updated
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -254,9 +255,8 @@ All data sent is encrypted with libsodium (with the exception being the creation
 ## Group Chats
 #### `MakeGroup`
 * This type is sent to a server from a client to create a new group chat
-  * A client only fills out the `groupName` field
-* Upon receiving the request, a server should create the group and add the user who requested the creation of the group to the group
-  * A server then responds to the client with a `MakeGroup` with all fields filled out
+* Upon receiving the request, a server should create the group and add the user who requested the creation of the group and any users they specify to the group
+* A server responds with an error or the updated `UserData`
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -266,8 +266,8 @@ All data sent is encrypted with libsodium (with the exception being the creation
 			<td>The desired name for this group chat</td>
 		</tr>
 		<tr>
-			<td><code>groupID</code></td>
-			<td>The server-created identification of this group chat</td>
+			<td><code>usernames</code></td>
+			<td>An array of usernames that specifies the users to be added to this group</td>
 		</tr>
 	</table>
 </details>
@@ -288,13 +288,14 @@ All data sent is encrypted with libsodium (with the exception being the creation
 		</tr>
 		<tr>
 			<td><code>key</code></td>
-			<td>The key to decrypt group chat messages encrypted with the user being added's public key</td>
+			<td>The key to decrypt group chat messages (unencrypted so server can add it to the new user)</td>
 		</tr>
 	</table>
 </details>
 
 #### `RemoveFromGroup`
 * server should check to see if nobody left, if nobody left, delete group
+* server clears all messages in store, creates new key
 
 #### `GroupMessage`
 * include replyTo JSON
