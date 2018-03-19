@@ -21,7 +21,8 @@ All data sent is encrypted with libsodium (with the exception being the creation
 </details>
 
 #### `Login`
-* As this type implies, it is used for a client to login to a specific account</li>
+* As this type implies, it is used for a client to login to a specific account
+* After a successful login, a server should send a client the signed-in user's `UserData`
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -39,9 +40,8 @@ All data sent is encrypted with libsodium (with the exception being the creation
 
 ## Server Necessities
 #### `ServerMessage`
-* This type is reserved exclusively for a server in order to broadcast important data
-* It should **not** be used for anything that is not important for all users
-  * A `ServerMessage` may be presented on a client as a dialogue box
+* This type is reserved exclusively for a server in order to broadcast important data/information
+* A `ServerMessage` may be presented on a client as a dialogue box
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -73,73 +73,10 @@ All data sent is encrypted with libsodium (with the exception being the creation
 
 ## Administration (can only be used by admins)
 * To come in a later version (DO NOT IMPLEMENT):
-  * KickUser
-  * BanUser (for a certain amount of time)
-  * DisplayServerMessage**
+  * KickUser (for a specified period of time)
+  * DisplayServerMessage
 
-## User Accounts (TODO: ADD ANY OTHER FIELDS CURRENTLY MISSING)
-#### `UserData`
-* This type represents a user's *public* data
-  * See the next few entries for private information a client can use
-* If `UserData` is sent from a client, the server returns the `UserData` of the user the client specifies in the `username` field
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The username of the account in question</td>
-		</tr>
-		<tr>
-			<td><code>picture</code></td>
-			<td>The profile picture of the account in question</td>
-		</tr>
-		<tr>
-			<td><code>pubKey</code></td>
-			<td>The public key (needed for securely sending encryption keys of chats) of the account in question</td>
-		</tr>
-	</table>
-</details>
-
-#### `SetMyData` (TODO: SEE IF ANY OTHERS)
-* This type sets the logged in user's data to whatever is specified in the JSON
-* A server should only acknowledge this type if the client is already logged-in as the user in question and all fields are valid
-* If anything is invalid (such as a duplicate username), a server should send a `ServerError` back
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The username of the account in question</td>
-		</tr>
-		<tr>
-			<td><code>picture</code></td>
-			<td>The profile picture of the account in question</td>
-		</tr>
-	</table>
-</details>
-
-#### `GetMyData` (TODO: Group chats and keys list, private messages and keys list, rooms list)
-* This gets all of the needed private (encrypted) data of the user logged in
-* A server should automatically send this type to a user after a successful login so a client can update itself
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The username of the account in question</td>
-		</tr>
-		<tr>
-			<td><code>picture</code></td>
-			<td>The profile picture of the account in question</td>
-		</tr>
-	</table>
-</details>
-
-## Rooms
-#### `AddRoom`
+#### `AddRoom` (TODO: FIX ME)
 * This type adds a room to a user's list of subscribed rooms
 * <details>
 	<summary>Format</summary>
@@ -152,7 +89,7 @@ All data sent is encrypted with libsodium (with the exception being the creation
 	</table>
 </details>
 
-#### `DeleteRoom`
+#### `DeleteRoom` (TODO: FIX ME)
 * This type deletes a room from a user's list of subscribed rooms
 * <details>
 	<summary>Format</summary>
@@ -165,6 +102,74 @@ All data sent is encrypted with libsodium (with the exception being the creation
 	</table>
 </details>
 
+## User Accounts (TODO: ADD ANY OTHER FIELDS CURRENTLY MISSING)
+#### `UserData`
+* This type represents a user's data
+* If `UserData` is sent from a client, the server returns the `UserData` of the user the client specifies in the `username` field
+* `UserData` will contain the private fields *if and only if* the `UserData` being requested is for the logged-in user
+* <details>
+	<summary>Format</summary>
+	<table>
+		<tr><th>Field</th><th>Value</th></tr>
+		<tr>
+			<td><code>username</code></td>
+			<td>The username of the account in question</td>
+		</tr>
+		<tr>
+			<td><code>displayName</code></td>
+			<td>The display name (nickname) for the account in question</td>
+		</tr>
+		<tr>
+			<td><code>picture</code></td>
+			<td>The Base64 of the profile picture of the account in question</td>
+		</tr>
+		<tr>
+			<td><code>pubKey</code></td>
+			<td>The public key (needed for securely sending encryption keys of chats) of the account in question</td>
+		</tr>
+		<tr>
+			<td><code>privateKey</code></td>
+			<td>(PRIVATE FIELD) The (encrypted with key-derived password) private key of the user</td>
+		</tr>
+		<tr>
+			<td><code>rooms</code></td>
+			<td>(PRIVATE FIELD) A list of the rooms the user can access</td>
+		</tr>
+		<tr>
+			<td><code>groups</code></td>
+			<td>(PRIVATE FIELD) A map of group IDs to private keys that the user can access</td>
+		</tr>
+		<tr>
+			<td><code>privateMessages</code></td>
+			<td>(PRIVATE FIELD) A list of the usernames that the user has messaged</td>
+		</tr>
+	</table>
+</details>
+
+#### `SetMyData`
+* This type sets the logged in user's data to whatever is specified in the JSON
+* A server should only acknowledge this type if the client is already logged-in as the user in question and all fields are valid
+* If anything is invalid (such as a duplicate username), a server should send a `ServerError` back
+* <details>
+	<summary>Format</summary>
+	<table>
+		<tr><th>Field</th><th>Value</th></tr>
+		<tr>
+			<td><code>username</code></td>
+			<td>The desired username of the account in question (can be the current `username` for no change)</td>
+		</tr>
+		<tr>
+			<td><code>displayName</code></td>
+			<td>The desired display name (nickname) for the account in question (can be the current `displayName` for no change)</td>
+		</tr>
+		<tr>
+			<td><code>picture</code></td>
+			<td>The Base64 of the desired profile picture of the account in question (can be the current `picture` for no change)</td>
+		</tr>
+	</table>
+</details>
+
+## Rooms
 #### `RoomMessage`
 * This type is used to send and receive messages from a particular room
   * Room messages are always *unencrypted*
