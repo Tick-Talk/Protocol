@@ -4,6 +4,9 @@ Group chat messages are encrypted with a client generated key that is sent to ot
 
 PM messages are encrypted with the other user's public key and are added directly to their account file on the account database
 
+First thought when implementing something should be: "Does this user have adequate priveleges?"
+
+Last thought when about to finish should be: "Which users need to be sent a new `UserData`?"
 
 # Accounts
 Accounts can be stored in any way desired on the server. However, a SQL database is desired.
