@@ -12,4 +12,12 @@ Features that sets Tick Talk apart:
 * Anyone paranoid or not can run their own server if they so choose
 * Come up with other selling points
 
-For more information on how Tick Talk operates, open up the corresponding file of your query in this repository.
+For how Tick Talk operates (and just more information in general), see the following files:
+* How a client operates (and features to implement): see [Client.md](https://github.com/Tick-Talk/Protocol/blob/master/Client.md)
+* How a server operates (and ways to implement): see [Server.md](https://github.com/Tick-Talk/Protocol/blob/master/Server.md)
+* How clients and a server communicate: see [DataTransmission.md](https://github.com/Tick-Talk/Protocol/blob/master/DataTransmission.md)
+* How Tick Talk secures your information: see [Cryptography.md](https://github.com/Tick-Talk/Protocol/blob/master/Cryptography.md)
+* What features are planned to be added: see [TODO.md](https://github.com/Tick-Talk/Protocol/blob/master/TODO.md)
+* All of our code featured in this project is under the MIT License. See [LICENSE](https://github.com/Tick-Talk/Protocol/blob/master/LICENSE) for more information
+
+To request features, fill out [this form](https://docs.google.com/forms/d/e/1FAIpQLSeDQP6ZCDjUdHzXvnXrcpgyA4gk0-skl_xLf3ojt22eWG_z9g/viewform?usp=sf_link).
