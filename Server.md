@@ -11,38 +11,25 @@ Account creation will happen on a webserver which has access to the account data
 ### Account Database
 Accounts can be stored in any way desired on the server. However, a SQL database is recommended and desired.
 
-Each user account will have the following information associated it:
-* Username (only one username can exist on a server)
-* Hashed password (benchmark for 1 second of iterations, or just do whatever libsodium says...look into this)
-* Encrypted private key (private key is encrypted with a password-derived key--make sure this password derived key is NOT the same as the hashed password that is being stored, or anything remotely close; perhaps a different algorithm–I'm thinking PBKDF2 will work?)
-* Public key
-* TODO: fix the following
-* List of the rooms that the user belongs to (encrypted to just one string with a key that is password-derived)
-* Group Chats & Private Messages (encrypted to just one string with a key that is password-derived)
-  * Chat ID
-  * Chat key
+Each user account needs to be stored with the data that can be found in `UserData` in DataTransmission.md.
+In addition, each user needs to be stored with the following:
 * Privelege (either normal or admin)
   * Every user is normal by default
-  * A user cannot be promoted to admin by a command given over the network, only local changes
-* TODO: PMs
-* TODO: See `UserData`
+  * A user can *only* be promoted to admin by a local change to ensure security
+* Suggestion: Private Messages
+  * Have a list of usernames and then their associated messages
 
 # Rooms
-Rooms are a place where any user with an account can connect–and thus are not encrypted. Room names can only contain spaces, A-Z (only uppercase), and 0-9. A server should ignore all other requests relating to rooms that do not match the above requirements.
+Rooms are a place where any user with an account can connect–and thus are not encrypted. Room names can only be alphanumeric with spaces. A server should not initialize any rooms that do not meet the above requirements.
 
-In addition, a server implementer may choose whether or not there are only certain "valid" rooms. Typically, any name room that a user wants can be used to send messages. If a server implementer limits rooms to only "valid" rooms, then only rooms with certain names can be used for messaging.
-
-Room messages are not encrypted and should be stored in some random database
+Room messages are not encrypted and should be stored in a database dedicated to room messaging.
 
 # Group Chats (GCs)
-Any user can create a GC.
-Include info about creation and management
+Any user can create a GC. See DataTransmission.md for how.
 
-Sending messages
+Group chat messages are encrypted with a server-generated key (that is immediately securely erased after usage) that is sent to group members on group creation and removal of members.
 
-Group chat messages are encrypted with a client generated key that is sent to other group members on addition or deletion of other members. 
-
-messages stored in some random database
+Group chat messages should be stored in a database dedicated to just group chat messaging.
 
 # Private Messages (PMs)
-PM messages are encrypted with the other user's public key and are added directly to their account file on the account database
+Private messages are simply user to user messages. They are encrypted with the other user's public key and are saved alongside a user's account data (see the "Account Database" section above)
