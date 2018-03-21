@@ -1,6 +1,4 @@
 # Format
-All data sent is encrypted with libsodium (with the exception being the type `PublicKey`, which is used for the creation of the encrypted tunnel).
-
 Data sent will be in the form of `DataType{JSON}` (a string), where:
 * `DataType` is a string representing the type of data that the JSON contains (see below)
 * `{JSON}` is JSON that represents the relevant data being transmitted
@@ -9,8 +7,7 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 ## Authentication
 #### `PublicKey`
 * Used to send the public key of the client/server
-* Both the client and server send this after a connection has been established
-  * No communication between a client and server can happen until all messages are encrypted with the other's public key
+* Both the client and server send this after a connection has been established in order for encryption to be established on necessary items
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -25,6 +22,7 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 #### `Login`
 * As this type implies, it is used for a client to login to a specific account
 * After a successful login, a server should send a client the signed-in user's `UserData`
+* The ***PASSWORD MUST BE ENCRYPTED*** with the server's public key and a randomly-generated nonce before being sent. The nonce used to encrypt the password will be present in `nonce`.
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -35,7 +33,11 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 		</tr>
 		<tr>
 			<td><code>password</code></td>
-			<td>The password of the user trying to login</td>
+			<td>(SENSITIVE) The password of the user trying to login (encrypted with the `passwordNonce`)</td>
+		</tr>
+		<tr>
+			<td><code>nonce</code></td>
+			<td>The randomly-generated nonce used to encrypt the password</td>
 		</tr>
 	</table>
 </details>
