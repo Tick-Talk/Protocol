@@ -17,7 +17,8 @@ In addition, each user needs to be stored with the following:
   * Every user is normal by default
   * A user can *only* be promoted to admin by a local change to ensure security
 * Suggestion: Private Messages
-  * Have a list of usernames and then their associated messages
+  * Private messages do not have to be stored along with a user account, but it would be a good idea for simplicity
+  * In order to store them, a hashmap of string usernames to a list of messages would be wise
 
 # Rooms
 Rooms are a place where any user with an account can connect–and thus are not encrypted. Room names can only be alphanumeric with spaces. A server should not initialize any rooms that do not meet the above requirements.
