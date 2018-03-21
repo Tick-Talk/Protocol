@@ -13,6 +13,8 @@
 # Transmitting Data (Public Key Encryption)
 coming soon
 
+for now see the links below
+
 # Links for Development
 * https://dev.to/paragonie/libsodium-quick-reference
 * https://paragonie.com/book/pecl-libsodium
