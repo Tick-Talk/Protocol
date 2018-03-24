@@ -4,44 +4,6 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 * `{JSON}` is JSON that represents the relevant data being transmitted
 
 # Data Types and Their JSON
-## Authentication
-#### `PublicKey`
-* Used to send the public key of the client/server
-* Both the client and server send this after a connection has been established in order for encryption to be established on necessary items
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>pubKey</code></td>
-			<td>The public key of the sending device</td>
-		</tr>
-	</table>
-</details>
-
-#### `Login`
-* As this type implies, it is used for a client to login to a specific account
-* After a successful login, a server should send a client the signed-in user's `UserData`
-* The ***PASSWORD MUST BE ENCRYPTED*** with the server's public key and a randomly-generated nonce before being sent. The nonce used to encrypt the password will be present in `nonce`.
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The username of the user trying to login</td>
-		</tr>
-		<tr>
-			<td><code>password</code></td>
-			<td>(SENSITIVE) The password of the user trying to login (encrypted with the `passwordNonce`)</td>
-		</tr>
-		<tr>
-			<td><code>nonce</code></td>
-			<td>The randomly-generated nonce used to encrypt the password</td>
-		</tr>
-	</table>
-</details>
-
 ## Server Necessities
 #### `ServerMessage`
 * This type is reserved exclusively for a server in order to broadcast important data/information
@@ -125,6 +87,24 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 </details>
 
 ## User Accounts
+#### `Login`
+* As this type implies, it is used for a client to login to a specific account
+* After a successful login, a server should send a client the signed-in user's `UserData`
+* <details>
+	<summary>Format</summary>
+	<table>
+		<tr><th>Field</th><th>Value</th></tr>
+		<tr>
+			<td><code>username</code></td>
+			<td>The username of the user trying to login</td>
+		</tr>
+		<tr>
+			<td><code>password</code></td>
+			<td>The password of the user trying to login</td>
+		</tr>
+	</table>
+</details>
+
 #### `UserData`
 * This type represents a user's data
   * It is commonly sent from a server to a client in order to refresh the client's cache and UI
