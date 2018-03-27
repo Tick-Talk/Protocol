@@ -102,6 +102,10 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td><code>password</code></td>
 			<td>The password of the user trying to login</td>
 		</tr>
+		<tr>
+			<td><code>protocol</code></td>
+			<td>The *major* protocol version as an int to check for compatibility</td>
+		</tr>
 	</table>
 </details>
 
