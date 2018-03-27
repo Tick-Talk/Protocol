@@ -3,6 +3,7 @@ Server creators have to keep many different security considerations in mind when
 * "Does this user have adequate priveleges to do the action they are requesting?"
 * "Which logged-in users need to be sent a new `UserData` as a result of this `DataType` being executed?"
 * "How can I make this as secure as possible?"
+Look into https://github.com/novnc/websockify as a potential method to run the server. Looks promising.
 
 # Accounts
 ### Account Creation and Deletion
