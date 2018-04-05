@@ -65,6 +65,10 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td><code>duration</code></td>
 			<td>The time in minutes to kick the user for</td>
 		</tr>
+		<tr>
+			<td><code>reason</code></td>
+			<td>The reason for being kicked</td>
+		</tr>
 	</table>
 </details>
 
@@ -155,17 +159,13 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 
 #### `SetMyData`
 * This type sets the logged in user's data to whatever is specified in the JSON
-* A server should only acknowledge this type if the client is already logged-in as the user in question and all fields are valid
-* If anything is invalid (such as a duplicate username), a server should send a `ServerError` back
+* A server should only acknowledge this type if the client is already logged-in and all fields are valid
+* If anything is invalid, a server should send a `ServerError` back
 * If the request is processed successfully, then a server should send the user's `UserData` back so it can be updated
 * <details>
 	<summary>Format</summary>
 	<table>
 		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The desired username of the account in question (can be the current `username` for no change)</td>
-		</tr>
 		<tr>
 			<td><code>displayName</code></td>
 			<td>The desired display name (nickname) for the account in question (can be the current `displayName` for no change)</td>
@@ -281,6 +281,7 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 
 #### `AddToGroup`
 * This type is used to add a user to a group chat
+* Upon success, a server should send everyone in the group a new `UserData`.
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -293,10 +294,6 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td><code>username</code></td>
 			<td>The username of the user being added to the group chat</td>
 		</tr>
-		<tr>
-			<td><code>key</code></td>
-			<td>The key to decrypt group chat messages (unencrypted so server can add it to the new user)</td>
-		</tr>
 	</table>
 </details>
 
@@ -304,7 +301,6 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 * This type removes a user from a group chat
 * A server should check to see if nobody is left in the group
   * If so, the server should delete the group
-* In order to retain security after removing a user, a server should clear all messages it has in store and should create a new key for all remaining users (and send a new `UserData` to all users who need one)
 * In order to leave a group, a client simply needs to send a `RemoveFromGroup` with their username as the `username`
 * <details>
 	<summary>Format</summary>
@@ -343,7 +339,11 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 		</tr>
 		<tr>
 			<td><code>msg</code></td>
-			<td>The message associated with this data transmission (encrypted with group key)</td>
+			<td>A JSON map of usernames to the messages that were encrypted for them with their public keys</td>
+		</tr>
+		<tr>
+			<td><code>nonce</code></td>
+			<td>A JSON map of usernames to the nonces that were used to encrypt the messages</td>
 		</tr>
 	</table>
 </details>
@@ -370,11 +370,19 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 		</tr>
 		<tr>
 			<td><code>file</code></td>
-			<td>The encrypted form (encrypted with the group key) of the file encoded in Base64 that is associated with this data transmission</td>
+			<td>A JSON map of the usernames to their respected encrypted file (in Base64)</td>
+		</tr>
+		<tr>
+			<td><code>fileNonce</code></td>
+			<td>A JSON map of usernames to the nonces used to encrypt the file</td>
 		</tr>
 		<tr>
 			<td><code>caption</code></td>
-			<td>The caption associated with the file</td>
+			<td>A JSON map of the usernames to the encrypted caption made for a user with their public key</td>
+		</tr>
+		<tr>
+			<td><code>captionNonce</code></td>
+			<td>A JSON map of the usernames to the nonces used to encrypt the caption for each user</td>
 		</tr>
 	</table>
 </details>
@@ -427,6 +435,10 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td><code>msg</code></td>
 			<td>The message associated with this data transmission (encrypted with the other user's public key)</td>
 		</tr>
+		<tr>
+			<td><code>nonce</code></td>
+			<td>The nonce used to encrypt <code>msg</code></td>
+		</tr>
 	</table>
 </details>
 
@@ -455,8 +467,16 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td>The encrypted form (encrypted with the other user's public key) of the file encoded in Base64 that is associated with this data transmission</td>
 		</tr>
 		<tr>
+			<td><code>fileNonce</code></td>
+			<td>The nonce used to encrypt the file</td>
+		</tr>
+		<tr>
 			<td><code>caption</code></td>
 			<td>The caption associated with the file</td>
+		</tr>
+		<tr>
+			<td><code>captionNonce</code></td>
+			<td>The nonce used to encrypt the caption</td>
 		</tr>
 	</table>
 </details>
