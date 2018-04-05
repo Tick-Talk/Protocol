@@ -11,9 +11,8 @@
 * SODIUM_CRYPTO_PWHASH_MEMLIMIT_SENSITIVE
 
 # Transmitting Data (Public Key Encryption)
-coming soon
-
-for now see the links below
+* sodium_crypto_box
+* todo make this more detailed
 
 # Links for Development
 * https://dev.to/paragonie/libsodium-quick-reference
