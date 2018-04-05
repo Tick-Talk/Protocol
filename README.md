@@ -1,7 +1,7 @@
 # Tick Talk Protocol
 ### Current Protocol Version: v1.0.0
 ------------------------------------------
-**Created by Gregory Conrad in March 2018**
+**Created by Gregory Conrad in April 2018**
 
 Tick Talk is a fully open source communication platform that aims to provide anyone with any device a secure way to communicate.
 
