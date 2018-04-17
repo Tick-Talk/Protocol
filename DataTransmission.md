@@ -148,7 +148,7 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 		</tr>
 		<tr>
 			<td><code>groups</code></td>
-			<td>(PRIVATE FIELD) An array of 3-element arrays, which all feature a `groupID`, `groupName`, and `groupKey`</td>
+			<td>(PRIVATE FIELD) A list of <code>groupID</code>s</td>
 		</tr>
 		<tr>
 			<td><code>privateMessages</code></td>
@@ -167,12 +167,12 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 	<table>
 		<tr><th>Field</th><th>Value</th></tr>
 		<tr>
-			<td><code>displayName</code></td>
-			<td>The desired display name (nickname) for the account in question (can be the current `displayName` for no change)</td>
-		</tr>
+        	<td><code>whatToChange</code></td>
+       		<td>What the client is requesting to be changed about the logged in account (either <code>displayName</code> or <code>pic</code></td>
+   		</tr>
 		<tr>
-			<td><code>picture</code></td>
-			<td>The Base64 of the desired profile picture of the account in question (can be the current `picture` for no change)</td>
+			<td><code>data</code></td>
+			<td>The new data for what is being changed (Base64 of a picture or a string for the new name</td>
 		</tr>
 	</table>
 </details>
@@ -182,6 +182,7 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 * This type is used to send and receive messages from a particular room
   * Room messages are always *unencrypted*
 * When a message is sent from a client, the `timestamp` field is ignored by the server (as this is a server-generated field)
+* When sending a file, the `msg` field represents the file's caption
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -200,38 +201,11 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 		</tr>
 		<tr>
 			<td><code>msg</code></td>
-			<td>The message associated with this data transmission</td>
-		</tr>
-	</table>
-</details>
-
-#### `RoomFile`
-* This type is used to send and receive files from a particular room
-  * Room files are always *unencrypted*
-* When a file is sent from a client, the `timestamp` field is ignored by the server (as this is a server-generated field)
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>room</code></td>
-			<td>The room the user is sending a file to</td>
+			<td>The message (or caption) associated with this data transmission</td>
 		</tr>
 		<tr>
-			<td><code>timestamp</code></td>
-			<td>Also used as a message ID, the timestamp is the time in milliseconds at UTC (the server will limit messages to one a millisecond)</td>
-		</tr>
-		<tr>
-			<td><code>replyTo</code></td>
-			<td>The message ID/timestamp that the file is in response to (if there is one)</td>
-		</tr>
-		<tr>
-			<td><code>file</code></td>
-			<td>The file encoded in Base64 that is associated with this data transmission</td>
-		</tr>
-		<tr>
-			<td><code>caption</code></td>
-			<td>The caption associated with the file</td>
+		    <td>code>file</code></td>
+		    <td>The file encoded in Base64 that is associated with this data transmission (can be null or a blank string for nothing)</td>
 		</tr>
 	</table>
 </details>
@@ -239,7 +213,7 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 #### `RequestRoomMessages`
 * This type is for requesting messages that were sent in a particular time frame to a room
   * Typically used for updating the client's list of messages
-* When a client sends this type, a server should respond back with every `RoomMessage` and `RoomFile` sent within the requested time frame (that the server still has in memory)
+* When a client sends this type, a server should respond back with every `RoomMessage` sent within the requested time frame (that the server still has in memory)
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -279,48 +253,65 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 	</table>
 </details>
 
-#### `AddToGroup`
-* This type is used to add a user to a group chat
-* Upon success, a server should send everyone in the group a new `UserData`.
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>groupID</code></td>
-			<td>The server-created group chat ID</td>
-		</tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The username of the user being added to the group chat</td>
-		</tr>
-	</table>
-</details>
+#### `GroupInfo`
+* todo groupID, group name, profile pic, description
+* map of who is in group to nicknames, if applicable
 
-#### `RemoveFromGroup`
-* This type removes a user from a group chat
-* A server should check to see if nobody is left in the group
-  * If so, the server should delete the group
-* In order to leave a group, a client simply needs to send a `RemoveFromGroup` with their username as the `username`
+#### `ChangeGroupInfo`
+* This type is used to set/change anything relating to a group
+  * The group picture, description, or name can be changed with this data format
 * <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>groupID</code></td>
-			<td>The ID of the group to remove the user from</td>
-		</tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The username of the user who is being removed from the group</td>
-		</tr>
-	</table>
-</details>
+  	<summary>Format</summary>
+  	<table>
+  		<tr><th>Field</th><th>Value</th></tr>
+  		<tr>
+  			<td><code>groupID</code></td>
+  			<td>The ID of the group in question</td>
+  		</tr>
+  		<tr>
+  		    <td><code>whatToChange</code></td>
+  		    <td>As the name implies, this field specifies what is being requested to change (either <code>name</code>, <code>description</code> or <code>pic</code>)</td>
+  		</tr>
+  		<tr>
+          	<td><code>data</code></td>
+          	<td>The data relating to what is specified in <code>whatToChange</code></td>
+       	</tr>
+  	</table>
+  </details>
+
+#### `GroupUserMaintenance`
+* This type is used to perform maintenance on a user in a group
+  * Can be used to add a user to a group, remove a user from a group, or change the nickname of a user in a group
+    * If removing a user, a server should delete a group if nobody is left
+* <details>
+  	<summary>Format</summary>
+  	<table>
+  		<tr><th>Field</th><th>Value</th></tr>
+  		<tr>
+  			<td><code>groupID</code></td>
+  			<td>The ID of the group in question</td>
+  		</tr>
+  		<tr>
+          	<td><code>mode</code></td>
+        	<td>What is happening to the user specified in <code>username</code>(either <code>add</code>, <code>remove</code>, or <code>nickname</code>)</td>
+        </tr>
+  		<tr>
+  			<td><code>username</code></td>
+  			<td>The username of the user in question</td>
+  		</tr>
+  		<tr>
+          	<td><code>nickname</code></td>
+          	<td>The new nickname for the user in question (if applicable)</td>
+        </tr>
+  	</table>
+ </details>
 
 #### `GroupMessage`
 * This type is used to send and receive messages from a group chat
   * Group chat messages are always encrypted
 * When a message is sent from a client, the `timestamp` field is ignored by the server (as this is a server-generated field)
+* When a file is sent, the `msg` field is used for the file's caption
+* ALL JSON maps must include data for the user sending the message too
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -342,55 +333,24 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td>A JSON map of usernames to the messages that were encrypted for them with their public keys</td>
 		</tr>
 		<tr>
-			<td><code>nonce</code></td>
+			<td><code>msgNonce</code></td>
 			<td>A JSON map of usernames to the nonces that were used to encrypt the messages</td>
 		</tr>
-	</table>
-</details>
-
-#### `GroupFile`
-* This type is used to send and receive files from a particular group chat
-  * Group files are always encrypted
-* When a file is sent from a client, the `timestamp` field is ignored by the server (as this is a server-generated field)
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
 		<tr>
-			<td><code>groupID</code></td>
-			<td>The ID of the group that the user is sending a file to</td>
-		</tr>
-		<tr>
-			<td><code>timestamp</code></td>
-			<td>Also used as a message ID, the timestamp is the time in milliseconds at UTC (the server will limit messages to one a millisecond)</td>
-		</tr>
-		<tr>
-			<td><code>replyTo</code></td>
-			<td>The message ID/timestamp that the file is in response to (if there is one)</td>
-		</tr>
-		<tr>
-			<td><code>file</code></td>
-			<td>A JSON map of the usernames to their respected encrypted file (in Base64)</td>
-		</tr>
-		<tr>
-			<td><code>fileNonce</code></td>
-			<td>A JSON map of usernames to the nonces used to encrypt the file</td>
-		</tr>
-		<tr>
-			<td><code>caption</code></td>
-			<td>A JSON map of the usernames to the encrypted caption made for a user with their public key</td>
-		</tr>
-		<tr>
-			<td><code>captionNonce</code></td>
-			<td>A JSON map of the usernames to the nonces used to encrypt the caption for each user</td>
-		</tr>
+        	<td><code>file</code></td>
+        	<td>A JSON map of the usernames to their respected encrypted file (in Base64) (can be null)</td>
+        </tr>
+        <tr>
+        	<td><code>fileNonce</code></td>
+        	<td>A JSON map of usernames to the nonces used to encrypt the file (can be blank or null)</td>
+        </tr>
 	</table>
 </details>
 
 #### `RequestGroupMessages`
 * This type is for requesting messages that were sent in a particular time frame to a group chat
   * Typically used for updating the client's list of messages
-* When a client sends this type, a server should respond back with every `GroupMessage` and `GroupFile` sent within the requested time frame (that the server still has in memory)
+* When a client sends this type, a server should respond back with every `GroupMessage` sent within the requested time frame (that the server still has in memory)
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -415,6 +375,8 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 * This type is used to send and receive messages from another user
   * Private messages are always encrypted with the other person's public key
 * When a message is sent from a client, the `timestamp` field is ignored by the server (as this is a server-generated field)
+* When a file is sent, the `msg` field is used for the file's caption
+* ALL JSON maps must include data for the user sending the message too
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -436,48 +398,17 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td>The message associated with this data transmission (encrypted with the other user's public key)</td>
 		</tr>
 		<tr>
-			<td><code>nonce</code></td>
+			<td><code>msgNonce</code></td>
 			<td>The nonce used to encrypt <code>msg</code></td>
 		</tr>
-	</table>
-</details>
-
-#### `PrivateFile`
-* This type is used to send and receive files from another user
-  * Private files are always encrypted
-* When a file is sent from a client, the `timestamp` field is ignored by the server (as this is a server-generated field)
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
 		<tr>
-			<td><code>username</code></td>
-			<td>The username of the user that the logged-in user is sending a file to</td>
-		</tr>
-		<tr>
-			<td><code>timestamp</code></td>
-			<td>Also used as a message ID, the timestamp is the time in milliseconds at UTC (the server will limit messages to one a millisecond)</td>
-		</tr>
-		<tr>
-			<td><code>replyTo</code></td>
-			<td>The message ID/timestamp that the file is in response to (if there is one)</td>
-		</tr>
-		<tr>
-			<td><code>file</code></td>
-			<td>The encrypted form (encrypted with the other user's public key) of the file encoded in Base64 that is associated with this data transmission</td>
-		</tr>
-		<tr>
-			<td><code>fileNonce</code></td>
-			<td>The nonce used to encrypt the file</td>
-		</tr>
-		<tr>
-			<td><code>caption</code></td>
-			<td>The caption associated with the file</td>
-		</tr>
-		<tr>
-			<td><code>captionNonce</code></td>
-			<td>The nonce used to encrypt the caption</td>
-		</tr>
+            <td><code>file</code></td>
+            <td>A JSON map of the usernames to their respected encrypted file (in Base64) (can be null)</td>
+        </tr>
+        <tr>
+           	<td><code>fileNonce</code></td>
+           	<td>A JSON map of usernames to the nonces used to encrypt the file (can be blank or null)</td>
+        </tr>
 	</table>
 </details>
 
@@ -503,3 +434,6 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 		</tr>
 	</table>
 </details>
+
+#### `DeletePrivateMessages`
+* todo remove a user and their messages from a PM (so it wont show up in UserData)
