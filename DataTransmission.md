@@ -2,6 +2,16 @@
 Data sent will be in the form of `DataType{JSON}` (a string), where:
 * `DataType` is a string representing the type of data that the JSON contains (see below)
 * `{JSON}` is JSON that represents the relevant data being transmitted
+* The JSON does not contain NULL (use blank strings instead)
+
+Some data types contain a `encryptedMsgData` field. This field is for an array of arrays. Each sub-array represents the encrypted data for one invididual user. If something cannot be included in the array/is not relevant, it should be a blank string. A sub-array needs to be present for every user involved in communication--including the sender. Each sub array should be in the following format:
+* [0]: `username` - the username of the user which the following data is encrypted for
+* [1]: `msg` - the encrypted message for the user
+* [2]: `msgNonce` - the nonce used to encrypt the message for the user
+* [3]: `filename` - the encrypted filename for the user
+* [4]: `filenameNonce` - the nonce used to encrypt the filename for the user
+* [5]: `file` - the encrypted form of the Base64 representation of a file for a user
+* [6]: `fileNonce` - the nonce used to encrypt the Base64 representation of a file for a user
 
 # Data Types and Their JSON
 ## Server Necessities
@@ -254,9 +264,34 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 </details>
 
 #### `GroupInfo`
-* todo groupID, group name, profile pic, description
-* map of who is in group to nicknames, if applicable
-
+* This data type either is request for information (if sent by a client) or information about a group (if sent by a server)
+* Everything but groupID should be a blank string for when being sent by a client
+* <details>
+  	<summary>Format</summary>
+  	<table>
+  		<tr><th>Field</th><th>Value</th></tr>
+  		<tr>
+  			<td><code>groupID</code></td>
+  			<td>The ID of the group in question</td>
+  		</tr>
+  		<tr>
+  		    <td><code>name</code></td>
+  		    <td>The name of the group</td>
+  		</tr>
+  		<tr>
+  		    <td><code>pic</code></td>
+  		    <td>The profile picture of the group</td>
+  		</tr>
+		<tr>
+  		    <td><code>description</code></td>
+  		    <td>The description of the group</td>
+  		</tr>
+		<tr>
+  		    <td><code>nicknames</code></td>
+  		    <td>A JSON map of usernames to their corresponding nicknames</td>
+  		</tr>
+  	</table>
+  </details>
 #### `ChangeGroupInfo`
 * This type is used to set/change anything relating to a group
   * The group picture, description, or name can be changed with this data format
@@ -282,7 +317,7 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 #### `GroupUserMaintenance`
 * This type is used to perform maintenance on a user in a group
   * Can be used to add a user to a group, remove a user from a group, or change the nickname of a user in a group
-    * If removing a user, a server should delete a group if nobody is left
+  * If removing a user, a server should delete a group if nobody is left
 * <details>
   	<summary>Format</summary>
   	<table>
@@ -329,21 +364,9 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td>The message ID/timestamp that `msg` is in response to (if there is one)</td>
 		</tr>
 		<tr>
-			<td><code>msg</code></td>
-			<td>A JSON map of usernames to the messages that were encrypted for them with their public keys</td>
+			<td><code>encryptedMsgData</code></td>
+			<td>See the "Format" section for information on this</td>
 		</tr>
-		<tr>
-			<td><code>msgNonce</code></td>
-			<td>A JSON map of usernames to the nonces that were used to encrypt the messages</td>
-		</tr>
-		<tr>
-        	<td><code>file</code></td>
-        	<td>A JSON map of the usernames to their respected encrypted file (in Base64) (can be null)</td>
-        </tr>
-        <tr>
-        	<td><code>fileNonce</code></td>
-        	<td>A JSON map of usernames to the nonces used to encrypt the file (can be blank or null)</td>
-        </tr>
 	</table>
 </details>
 
@@ -394,21 +417,9 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td>The message ID/timestamp that `msg` is in response to (if there is one)</td>
 		</tr>
 		<tr>
-			<td><code>msg</code></td>
-			<td>The message associated with this data transmission (encrypted with the other user's public key)</td>
+			<td><code>encryptedMsgData</code></td>
+			<td>See the "Format" section for information on this</td>
 		</tr>
-		<tr>
-			<td><code>msgNonce</code></td>
-			<td>The nonce used to encrypt <code>msg</code></td>
-		</tr>
-		<tr>
-            <td><code>file</code></td>
-            <td>A JSON map of the usernames to their respected encrypted file (in Base64) (can be null)</td>
-        </tr>
-        <tr>
-           	<td><code>fileNonce</code></td>
-           	<td>A JSON map of usernames to the nonces used to encrypt the file (can be blank or null)</td>
-        </tr>
 	</table>
 </details>
 
@@ -436,4 +447,14 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 </details>
 
 #### `DeletePrivateMessages`
-* todo remove a user and their messages from a PM (so it wont show up in UserData)
+* This option is to remove private messages from a user's account (so it wont show up in UserData)
+* <details>
+	<summary>Format</summary>
+	<table>
+		<tr><th>Field</th><th>Value</th></tr>
+		<tr>
+			<td><code>username</code></td>
+			<td>The username of the user to delete messages from</td>
+		</tr>
+	</table>
+</details>
