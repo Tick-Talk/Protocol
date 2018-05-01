@@ -214,8 +214,12 @@ Some data types contain a `encryptedMsgData` field. This field is for an array o
 			<td>The message (or caption) associated with this data transmission</td>
 		</tr>
 		<tr>
-		    <td>code>file</code></td>
+		    <td><code>file</code></td>
 		    <td>The file encoded in Base64 that is associated with this data transmission (can be null or a blank string for nothing)</td>
+		</tr>
+		<tr>
+		    <td><code>filename</code></td>
+		    <td>The name of the file</td>
 		</tr>
 	</table>
 </details>
