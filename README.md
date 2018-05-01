@@ -1,5 +1,5 @@
 # Tick Talk Protocol
-### Current Protocol Version: v1.0.0
+### Current Protocol Version: v2.0.0-beta
 ------------------------------------------
 **Created by Gregory Conrad in April 2018**
 
