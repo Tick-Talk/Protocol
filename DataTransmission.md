@@ -247,7 +247,7 @@ Some data types contain a `encryptedMsgData` field. This field is for an array o
 	</table>
 </details>
 
-## Group Chats
+## Group Chats (& PMs)
 #### `MakeGroup`
 * This type is sent to a server from a client to create a new group chat
 * Upon receiving the request, a server should create the group and add the user who requested the creation of the group and any users they specify to the group
@@ -296,6 +296,7 @@ Some data types contain a `encryptedMsgData` field. This field is for an array o
   		</tr>
   	</table>
   </details>
+
 #### `ChangeGroupInfo`
 * This type is used to set/change anything relating to a group
   * The group picture, description, or name can be changed with this data format
@@ -393,72 +394,6 @@ Some data types contain a `encryptedMsgData` field. This field is for an array o
 		<tr>
 			<td><code>maxTime</code></td>
 			<td>The timestamp that represents the end of the desired message range (all messages sent as a result of this request will have a timestamp <= `maxTime`)</td>
-		</tr>
-	</table>
-</details>
-
-## PMs
-#### `PrivateMessage`
-* This type is used to send and receive messages from another user
-  * Private messages are always encrypted with the other person's public key
-* When a message is sent from a client, the `timestamp` field is ignored by the server (as this is a server-generated field)
-* When a file is sent, the `msg` field is used for the file's caption
-* ALL JSON maps must include data for the user sending the message too
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The username of the user that the logged-in user is sending a message to</td>
-		</tr>
-		<tr>
-			<td><code>timestamp</code></td>
-			<td>Also used as a message ID, the timestamp is the time in milliseconds at UTC (the server will limit messages to one a millisecond)</td>
-		</tr>
-		<tr>
-			<td><code>replyTo</code></td>
-			<td>The message ID/timestamp that `msg` is in response to (if there is one)</td>
-		</tr>
-		<tr>
-			<td><code>encryptedMsgData</code></td>
-			<td>See the "Format" section for information on this</td>
-		</tr>
-	</table>
-</details>
-
-#### `RequestPrivateMessages`
-* This type is for requesting private messages sent to and from a particular user
-  * Typically used for updating the client's list of messages
-* When a client sends this type, a server should respond back with every `PrivateMessage` and `PrivateFile` sent within the requested time frame (that the server still has in memory)
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The username of the user that private messages are being requested from</td>
-		</tr>
-		<tr>
-			<td><code>minTime</code></td>
-			<td>The timestamp that the server should start sending messages from (all messages sent as a result of this request will have a timestamp >= `minTime`)</td>
-		</tr>
-		<tr>
-			<td><code>maxTime</code></td>
-			<td>The timestamp that represents the end of the desired message range (all messages sent as a result of this request will have a timestamp <= `maxTime`)</td>
-		</tr>
-	</table>
-</details>
-
-#### `DeletePrivateMessages`
-* This option is to remove private messages from a user's account (so it wont show up in UserData)
-* <details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>username</code></td>
-			<td>The username of the user to delete messages from</td>
 		</tr>
 	</table>
 </details>
