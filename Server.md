@@ -30,4 +30,4 @@ Group chat messages are encrypted (by the sender) for each user with their respe
 How storage of group chat messages should work is up to the server implementer, as it can be highly dependent on how the server is constructed.
 
 # Private Messages (PMs)
-Private messages are simply user to user messages. They are encrypted with the other user's public key and a nonce. How storage of private messages should work is up to the server implementer, as it can be highly dependent on how the server is constructed.
+As of protocol v2.0.0, use GCs for all private messaging needs.
