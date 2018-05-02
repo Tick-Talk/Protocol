@@ -160,10 +160,6 @@ Some data types contain a `encryptedMsgData` field. This field is for an array o
 			<td><code>groups</code></td>
 			<td>(PRIVATE FIELD) A list of <code>groupID</code>s</td>
 		</tr>
-		<tr>
-			<td><code>privateMessages</code></td>
-			<td>(PRIVATE FIELD) A list of the usernames that the user has messaged</td>
-		</tr>
 	</table>
 </details>
 
