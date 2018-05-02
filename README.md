@@ -1,13 +1,12 @@
 # Tick Talk Protocol
-### Current Protocol Version: v2.0.0-beta
+### Current Protocol Version: v2.0.0
 ------------------------------------------
-**Created by Gregory Conrad in April 2018**
 
 Tick Talk is a fully open source communication platform that aims to provide anyone with any device a secure way to communicate.
 
 Features that sets Tick Talk apart:
 * We use a renowned open source encryption library (libsodium) which has been trusted by many popular applications
-* Tick Talk ensures full encryption when talking to others in a group chat and in private messaging
+* Tick Talk ensures full encryption when messaging
 * Many modern features desired by users are already implemented, and the list is only growing! See below to give us more feature ideas
 * Anyone paranoid (or not) can run their own Tick Talk server if they so choose. This ensures their data's security
 
