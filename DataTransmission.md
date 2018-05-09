@@ -4,15 +4,6 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 * `{JSON}` is JSON that represents the relevant data being transmitted
 * The JSON does not contain NULL (use blank strings instead)
 
-Some data types contain a `encryptedMsgData` field. This field is for an array of arrays. Each sub-array represents the encrypted data for one invididual user. If something cannot be included in the array/is not relevant, it should be a blank string. A sub-array needs to be present for every user involved in communication--including the sender. Each sub array should be in the following format:
-* [0]: `username` - the username of the user which the following data is encrypted for
-* [1]: `msg` - the encrypted message for the user
-* [2]: `msgNonce` - the nonce used to encrypt the message for the user
-* [3]: `filename` - the encrypted filename for the user
-* [4]: `filenameNonce` - the nonce used to encrypt the filename for the user
-* [5]: `file` - the encrypted form of the Base64 representation of a file for a user
-* [6]: `fileNonce` - the nonce used to encrypt the Base64 representation of a file for a user
-
 # Data Types and Their JSON
 ## Server Necessities
 #### `ServerMessage`
@@ -366,7 +357,16 @@ Some data types contain a `encryptedMsgData` field. This field is for an array o
 		</tr>
 		<tr>
 			<td><code>encryptedMsgData</code></td>
-			<td>See the "Format" section for information on this</td>
+			<td>
+				This field is for an array of arrays. Each sub-array represents the encrypted data for one invididual user. If something cannot be included in the array/is not relevant, it should be a blank string. A sub-array needs to be present for every user involved in communication--including the sender. Each sub array should be in the following format:
+* [0]: `username` - the username of the user which the following data is encrypted for
+* [1]: `msg` - the encrypted message for the user
+* [2]: `msgNonce` - the nonce used to encrypt the message for the user
+* [3]: `filename` - the encrypted filename for the user
+* [4]: `filenameNonce` - the nonce used to encrypt the filename for the user
+* [5]: `file` - the encrypted form of the Base64 representation of a file for a user
+* [6]: `fileNonce` - the nonce used to encrypt the Base64 representation of a file for a user
+			</td>
 		</tr>
 	</table>
 </details>
