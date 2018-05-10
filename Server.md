@@ -4,9 +4,11 @@ Server creators have to keep many different security considerations in mind when
 * "Which logged-in users need to be sent a new `UserData` as a result of this `DataType` being executed?"
 * "How can I make this as secure as possible?"
 
+Also, messages should be dropped from a server's memory at around 1 week after being sent. This, however, can be configured to a server owner's liking.
+
 # Accounts
 ### Account Creation and Deletion
-TODO
+Until a later version of the protocol comes out, account creation and deletion has to be done manually for every user.
 
 ### Account Database
 Accounts can be stored in any way desired on the server. However, a SQL database is recommended and desired.
@@ -16,9 +18,10 @@ In addition, each user needs to be stored with the following:
 * Privelege (either normal or admin)
   * Every user is normal by default
   * A user can *only* be promoted to admin by a local change to ensure security
+  * Admins can execute commands like `KickUser` and broadcast server messages
 
 # Rooms
-Rooms are a place where any user with an account can connect–and thus are not encrypted. Room names can only be alphanumeric with spaces. A server should not initialize any rooms that do not meet the above requirements.
+Rooms are a place where any user with an account can connect and thus are not encrypted. Room names can only be alphanumeric with spaces. A server should not initialize any rooms that do not meet the above requirements.
 
 Room messages are not encrypted and should be stored in a database dedicated to room messaging.
 
@@ -31,3 +34,5 @@ How storage of group chat messages should work is up to the server implementer, 
 
 # Private Messages (PMs)
 As of protocol v2.0.0, use GCs for all private messaging needs.
+
+Direct private messaging was removed due to its redundancy, as it is very similar to group messaging.
