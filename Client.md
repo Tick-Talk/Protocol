@@ -13,4 +13,3 @@ Clients should implement all features presented in DataTransmission.md, along wi
   * Deleting messages (just from the client's message store)
   * Copy messages
   * Reply to
-* Regular user clients *should not* implement any administration options. These will be reserved for a console application.
