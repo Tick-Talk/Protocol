@@ -189,12 +189,16 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td>The room the user is sending a message to</td>
 		</tr>
 		<tr>
+			<td><code>id</code></td>
+			<td>The alphanumeric ID of the message that allows it to be sorted amongst other messages</td>
+		</tr>
+		<tr>
 			<td><code>timestamp</code></td>
-			<td>Also used as a message ID, the timestamp is the time in milliseconds at UTC (the server will limit messages to one a millisecond)</td>
+			<td>The timestamp is the time in seconds at UTC (the server generates this field)</td>
 		</tr>
 		<tr>
 			<td><code>replyTo</code></td>
-			<td>The message ID/timestamp that `msg` is in response to (if there is one)</td>
+			<td>The message ID that `msg` is in response to (if there is one)</td>
 		</tr>
 		<tr>
 			<td><code>msg</code></td>
@@ -202,7 +206,7 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 		</tr>
 		<tr>
 		    <td><code>file</code></td>
-		    <td>The file encoded in Base64 that is associated with this data transmission (can be null or a blank string for nothing)</td>
+		    <td>The file encoded in Base64 that is associated with this data transmission</td>
 		</tr>
 		<tr>
 		    <td><code>filename</code></td>
@@ -214,7 +218,8 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 #### `RequestRoomMessages`
 * This type is for requesting messages that were sent in a particular time frame to a room
   * Typically used for updating the client's list of messages
-* When a client sends this type, a server should respond back with every `RoomMessage` sent within the requested time frame (that the server still has in memory)
+* When a client sends this type, a server should respond back with every `RoomMessage` within the specified block(s)
+* `endBlock` must be larger than `startBlock`
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -224,12 +229,12 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td>The room that the client is requesting messages from</td>
 		</tr>
 		<tr>
-			<td><code>minTime</code></td>
-			<td>The timestamp that the server should start sending messages from (all messages sent as a result of this request will have a timestamp >= `minTime`)</td>
+			<td><code>startBlock</code></td>
+			<td>The lower bound of the block(s) to be returned: 0 for the most recent 1000 messages sent, 1 for the next 1000 messages sent, etc.</td>
 		</tr>
 		<tr>
-			<td><code>maxTime</code></td>
-			<td>The timestamp that represents the end of the desired message range (all messages sent as a result of this request will have a timestamp <= `maxTime`)</td>
+			<td><code>endBlock</code></td>
+			<td>The upperbound of the block(s) to be returned: 0 for the most recent 1000 messages sent, 1 for the next 1000 messages sent, etc.</td>
 		</tr>
 	</table>
 </details>
@@ -262,8 +267,8 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
   	<table>
   		<tr><th>Field</th><th>Value</th></tr>
   		<tr>
-  			<td><code>groupID</code></td>
-  			<td>The ID of the group in question</td>
+  		    <td><code>groupID</code></td>
+  		    <td>The ID of the group in question</td>
   		</tr>
   		<tr>
   		    <td><code>name</code></td>
@@ -348,8 +353,12 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td>The ID of the group that the user is sending a message to</td>
 		</tr>
 		<tr>
+			<td><code>id</code></td>
+			<td>The alphanumeric ID of the message that allows it to be sorted amongst other messages</td>
+		</tr>
+		<tr>
 			<td><code>timestamp</code></td>
-			<td>Also used as a message ID, the timestamp is the time in milliseconds at UTC (the server will limit messages to one a millisecond)</td>
+			<td>The timestamp is the time in seconds at UTC (the server generates this field)</td>
 		</tr>
 		<tr>
 			<td><code>replyTo</code></td>
@@ -374,7 +383,8 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 #### `RequestGroupMessages`
 * This type is for requesting messages that were sent in a particular time frame to a group chat
   * Typically used for updating the client's list of messages
-* When a client sends this type, a server should respond back with every `GroupMessage` sent within the requested time frame (that the server still has in memory)
+* When a client sends this type, a server should respond back with every `GroupMessage` sent within the specified block(s)
+* `endBlock` must be larger than `startBlock`
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -384,12 +394,12 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td>The ID of the group that the client is requesting messages from</td>
 		</tr>
 		<tr>
-			<td><code>minTime</code></td>
-			<td>The timestamp that the server should start sending messages from (all messages sent as a result of this request will have a timestamp >= `minTime`)</td>
+			<td><code>startBlock</code></td>
+			<td>The lower bound of the block(s) to be returned: 0 for the most recent 1000 messages sent, 1 for the next 1000 messages sent, etc.</td>
 		</tr>
 		<tr>
-			<td><code>maxTime</code></td>
-			<td>The timestamp that represents the end of the desired message range (all messages sent as a result of this request will have a timestamp <= `maxTime`)</td>
+			<td><code>endBlock</code></td>
+			<td>The upperbound of the block(s) to be returned: 0 for the most recent 1000 messages sent, 1 for the next 1000 messages sent, etc.</td>
 		</tr>
 	</table>
 </details>
