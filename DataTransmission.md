@@ -149,12 +149,14 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 		</tr>
 		<tr>
 			<td><code>groups</code></td>
-			<td>(PRIVATE FIELD) A list of JSON dictionaries that have the following fields:
-			* `groupID`: The ID of the group in question
-			* `name`: The name of the group
-			* `pic`: The profile picture of the group
-			* `description`: The description of the group
-			* `nicknames`: A JSON map of usernames to their corresponding nicknames
+			<td>
+(PRIVATE FIELD) A list of JSON dictionaries that have the following fields:
+				
+* `groupID`: The ID of the group in question
+* `name`: The name of the group
+* `pic`: The profile picture of the group
+* `description`: The description of the group
+* `nicknames`: A JSON map of usernames to their corresponding nicknames
 			</td>
 		</tr>
 	</table>
