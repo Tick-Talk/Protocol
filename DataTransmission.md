@@ -145,11 +145,17 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 		</tr>
 		<tr>
 			<td><code>rooms</code></td>
-			<td>(PRIVATE FIELD) A list of the rooms the user can access</td>
+			<td>(PRIVATE FIELD) A list of the rooms the user can access (a JSON array of strings)</td>
 		</tr>
 		<tr>
 			<td><code>groups</code></td>
-			<td>(PRIVATE FIELD) A list of <code>groupID</code>s</td>
+			<td>(PRIVATE FIELD) A list of JSON dictionaries that have the following fields:
+			* `groupID`: The ID of the group in question
+			* `name`: The name of the group
+			* `pic`: The profile picture of the group
+			* `description`: The description of the group
+			* `nicknames`: A JSON map of usernames to their corresponding nicknames
+			</td>
 		</tr>
 	</table>
 </details>
@@ -258,36 +264,6 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 		</tr>
 	</table>
 </details>
-
-#### `GroupInfo`
-* This data type either is request for information (if sent by a client) or information about a group (if sent by a server)
-* Everything but groupID should be a blank string for when being sent by a client
-* <details>
-  	<summary>Format</summary>
-  	<table>
-  		<tr><th>Field</th><th>Value</th></tr>
-  		<tr>
-  		    <td><code>groupID</code></td>
-  		    <td>The ID of the group in question</td>
-  		</tr>
-  		<tr>
-  		    <td><code>name</code></td>
-  		    <td>The name of the group</td>
-  		</tr>
-  		<tr>
-  		    <td><code>pic</code></td>
-  		    <td>The profile picture of the group</td>
-  		</tr>
-		<tr>
-  		    <td><code>description</code></td>
-  		    <td>The description of the group</td>
-  		</tr>
-		<tr>
-  		    <td><code>nicknames</code></td>
-  		    <td>A JSON map of usernames to their corresponding nicknames</td>
-  		</tr>
-  	</table>
-  </details>
 
 #### `ChangeGroupInfo`
 * This type is used to set/change anything relating to a group
