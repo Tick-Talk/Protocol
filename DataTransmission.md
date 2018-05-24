@@ -95,6 +95,7 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 #### `Login`
 * As this type implies, it is used for a client to login to a specific account
 * After a successful login, a server should send a client the signed-in user's `UserData`
+  * A server should also send back every `UserData` that a client might need (for every user in every one of the client's groups so the client knows their public key and other needed information)
 * <details>
 	<summary>Format</summary>
 	<table>
