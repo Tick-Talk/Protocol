@@ -1,5 +1,5 @@
 # Tick Talk Protocol
-### Current Protocol Version: v4.0.1
+### Current Protocol Version: v5.0.0
 ------------------------------------------
 
 Tick Talk is a fully open source communication platform that aims to provide anyone with any device a secure way to communicate.
