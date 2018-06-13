@@ -243,10 +243,9 @@ Data sent will be in the form of `DataType:JSON` (a string), where:
 	</table>
 </details>
 
-#### `RequestRooomMessagesByTime`
-* This type is for requesting messages that were sent in a particular time frame to a room
-  * Typically used for updating the client's list of messages after being offline for some time
-* When a client sends this type, a server should respond back with every `RoomMessage` within the specified times, inclusive
+#### `RequestNewRooomMessages`
+* This type is for requesting messages to update the client's list of messages after being offline for some time
+* When a client sends this type, a server should respond back with every `RoomMessage` sent since the provided ID was issued
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -256,12 +255,8 @@ Data sent will be in the form of `DataType:JSON` (a string), where:
 			<td>The room that the client is requesting messages from</td>
 		</tr>
 		<tr>
-			<td><code>startTimestamp</code></td>
-			<td>The lowerbound timestamp of messages. Messages sent as a result of this request should have this timestamp or newer</td>
-		</tr>
-		<tr>
-			<td><code>endTimestamp</code></td>
-			<td>The upperbound timestamp of messages. Messages sent as a result of this request should have this timestamp or older</td>
+			<td><code>id</code></td>
+			<td>The message ID of the last received message, so all newer messages will be sent</td>
 		</tr>
 	</table>
 </details>
@@ -396,10 +391,9 @@ Data sent will be in the form of `DataType:JSON` (a string), where:
 	</table>
 </details>
 
-#### `RequestGroupMessagesByTime`
-* This type is for requesting messages that were sent in a particular time frame to a group
-  * Typically used for updating the client's list of messages after being offline for some time
-* When a client sends this type, a server should respond back with every `GroupMessage` within the specified times, inclusive
+#### `RequestNewGroupMessages`
+* This type is for requesting messages to update the client's list of messages after being offline for some time
+* When a client sends this type, a server should respond back with every `GroupMessage` sent since the provided ID was issued
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -409,12 +403,8 @@ Data sent will be in the form of `DataType:JSON` (a string), where:
 			<td>The group that the client is requesting messages from</td>
 		</tr>
 		<tr>
-			<td><code>startTimestamp</code></td>
-			<td>The lowerbound timestamp of messages. Messages sent as a result of this request should have this timestamp or newer</td>
-		</tr>
-		<tr>
-			<td><code>endTimestamp</code></td>
-			<td>The upperbound timestamp of messages. Messages sent as a result of this request should have this timestamp or older</td>
+			<td><code>id</code></td>
+			<td>The message ID of the last received message, so all newer messages will be sent</td>
 		</tr>
 	</table>
 </details>
