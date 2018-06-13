@@ -1,8 +1,8 @@
 # Format
-Data sent will be in the form of `DataType{JSON}` (a string), where:
+Data sent will be in the form of `DataType:JSON` (a string), where:
 * `DataType` is a string representing the type of data that the JSON contains (see below)
-* `{JSON}` is JSON that represents the relevant data being transmitted
-* The JSON does not contain NULL (use blank strings instead)
+* `JSON` is JSON that represents the relevant data being transmitted
+* The JSON does not contain NULL (use empty strings or arrays instead)
 
 # Data Types and Their JSON
 ## Server Necessities
@@ -224,11 +224,10 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 	</table>
 </details>
 
-#### `RequestRoomMessages`
-* This type is for requesting messages that were sent in a particular time frame to a room
-  * Typically used for updating the client's list of messages
-* When a client sends this type, a server should respond back with every `RoomMessage` within the specified block(s)
-* `endBlock` must be larger than `startBlock`
+#### `RequestRoomMessageBlock`
+* This type is for requesting a block (a set) of messages
+  * Typically used for getting new messages to show the user when they exhaust the client's cache
+* When a client sends this type, a server should respond back with a ~1,000 message block of `RoomMessage`s
 * <details>
 	<summary>Format</summary>
 	<table>
@@ -238,12 +237,31 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 			<td>The room that the client is requesting messages from</td>
 		</tr>
 		<tr>
-			<td><code>startBlock</code></td>
-			<td>The lower bound of the block(s) to be returned: 0 for the most recent 1000 messages sent, 1 for the next 1000 messages sent, etc.</td>
+			<td><code>lastMessageID</code></td>
+			<td>The last message, inclusive, that is in the block of messages. Blank string ("") for the most recent block of messages</td>
+		</tr>
+	</table>
+</details>
+
+#### `RequestRooomMessagesByTime`
+* This type is for requesting messages that were sent in a particular time frame to a room
+  * Typically used for updating the client's list of messages after being offline for some time
+* When a client sends this type, a server should respond back with every `RoomMessage` within the specified times, inclusive
+* <details>
+	<summary>Format</summary>
+	<table>
+		<tr><th>Field</th><th>Value</th></tr>
+		<tr>
+			<td><code>room</code></td>
+			<td>The room that the client is requesting messages from</td>
 		</tr>
 		<tr>
-			<td><code>endBlock</code></td>
-			<td>The upperbound of the block(s) to be returned: 0 for the most recent 1000 messages sent, 1 for the next 1000 messages sent, etc.</td>
+			<td><code>startTimestamp</code></td>
+			<td>The lowerbound timestamp of messages. Messages sent as a result of this request should have this timestamp or newer</td>
+		</tr>
+		<tr>
+			<td><code>endTimestamp</code></td>
+			<td>The upperbound timestamp of messages. Messages sent as a result of this request should have this timestamp or older</td>
 		</tr>
 	</table>
 </details>
@@ -359,26 +377,44 @@ Data sent will be in the form of `DataType{JSON}` (a string), where:
 	</table>
 </details>
 
-#### `RequestGroupMessages`
-* This type is for requesting messages that were sent in a particular time frame to a group chat
-  * Typically used for updating the client's list of messages
-* When a client sends this type, a server should respond back with every `GroupMessage` sent within the specified block(s)
-* `endBlock` must be larger than `startBlock`
+#### `RequestGroupMessageBlock`
+* This type is for requesting a block (a set) of messages
+  * Typically used for getting new messages to show the user when they exhaust the client's cache
+* When a client sends this type, a server should respond back with a ~1,000 message block of `GroupMessage`s
 * <details>
 	<summary>Format</summary>
 	<table>
 		<tr><th>Field</th><th>Value</th></tr>
 		<tr>
 			<td><code>groupID</code></td>
-			<td>The ID of the group that the client is requesting messages from</td>
+			<td>The group that the client is requesting messages from</td>
 		</tr>
 		<tr>
-			<td><code>startBlock</code></td>
-			<td>The lower bound of the block(s) to be returned: 0 for the most recent 1000 messages sent, 1 for the next 1000 messages sent, etc.</td>
+			<td><code>lastMessageID</code></td>
+			<td>The last message, inclusive, that is in the block of messages. Blank string ("") for the most recent block of messages</td>
+		</tr>
+	</table>
+</details>
+
+#### `RequestGroupMessagesByTime`
+* This type is for requesting messages that were sent in a particular time frame to a group
+  * Typically used for updating the client's list of messages after being offline for some time
+* When a client sends this type, a server should respond back with every `GroupMessage` within the specified times, inclusive
+* <details>
+	<summary>Format</summary>
+	<table>
+		<tr><th>Field</th><th>Value</th></tr>
+		<tr>
+			<td><code>groupID</code></td>
+			<td>The group that the client is requesting messages from</td>
 		</tr>
 		<tr>
-			<td><code>endBlock</code></td>
-			<td>The upperbound of the block(s) to be returned: 0 for the most recent 1000 messages sent, 1 for the next 1000 messages sent, etc.</td>
+			<td><code>startTimestamp</code></td>
+			<td>The lowerbound timestamp of messages. Messages sent as a result of this request should have this timestamp or newer</td>
+		</tr>
+		<tr>
+			<td><code>endTimestamp</code></td>
+			<td>The upperbound timestamp of messages. Messages sent as a result of this request should have this timestamp or older</td>
 		</tr>
 	</table>
 </details>
