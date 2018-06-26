@@ -1,10 +1,10 @@
 # Format
-Data sent will be in the form of `DataType:JSON` (a string), where:
-* `DataType` is a string representing the type of data that the JSON contains (see below)
-* `JSON` is JSON that represents the relevant data being transmitted
-* The JSON does not contain NULL (use empty strings or arrays instead)
+In order to simplify sending and receiving data, the Tick Talk protocol, as of v6.0.0, is built on top of [Requests](https://github.com/GregoryConrad/Requests).
+The "function" name specified by Requests will be called the `DataType` below, and the data in Requests should be in the format as described below every `DataType`. Also, please note: any data sent in JSON form must not contain NULL.
 
-# Data Types and Their JSON
+# DO NOT FOLLOW THIS VERSION OF THE PROTOCOL; IT IS STILL AN ALPHA VERSION
+
+# Data Types and Their Data
 ## Server Necessities
 #### `ServerMessage`
 * This type is reserved exclusively for a server in order to broadcast important data/information
