@@ -1,4 +1,6 @@
-Also, please note: any data sent in JSON form must not contain NULL.
+This file describes JSON objects that can be sent as parameters or return values.
+
+Please note: any data sent in JSON form must not contain NULL.
 
 #### `LoginObject`
 <details>
@@ -19,12 +21,13 @@ Also, please note: any data sent in JSON form must not contain NULL.
 		</tr>
 	</table>
 </details>
+
 #### `UserData`
 * This type represents a user's data
   * It is commonly sent from a server to a client in order to refresh the client's cache and UI
-* If `UserData` is sent from a client, the server returns the `UserData` of the user the client specifies in the `username` field
 * `UserData` will contain the private fields *if and only if* the `UserData` being requested is for the logged-in user
-* <details>
+  * Otherwise, they should be blank strings
+<details>
 	<summary>Format</summary>
 	<table>
 		<tr><th>Field</th><th>Value</th></tr>
@@ -34,7 +37,7 @@ Also, please note: any data sent in JSON form must not contain NULL.
 		</tr>
 		<tr>
 			<td><code>displayName</code></td>
-			<td>The display name (nickname) for the account in question</td>
+			<td>The display name for the account in question</td>
 		</tr>
 		<tr>
 			<td><code>picture</code></td>
@@ -42,7 +45,7 @@ Also, please note: any data sent in JSON form must not contain NULL.
 		</tr>
 		<tr>
 			<td><code>pubKey</code></td>
-			<td>The public key (needed for securely sending encryption keys of chats) of the account in question</td>
+			<td>The public key of the account in question</td>
 		</tr>
 		<tr>
 			<td><code>privateKey</code></td>
@@ -68,11 +71,8 @@ Also, please note: any data sent in JSON form must not contain NULL.
 </details>
 
 #### `RoomMessage`
-* This type is used to send and receive messages from a particular room
-  * Room messages are always *unencrypted*
-* When a message is sent from a client, the `timestamp` field is ignored by the server (as this is a server-generated field)
 * When sending a file, the `msg` field represents the file's caption
-* <details>
+<details>
 	<summary>Format</summary>
 	<table>
 		<tr><th>Field</th><th>Value</th></tr>
@@ -108,7 +108,7 @@ Also, please note: any data sent in JSON form must not contain NULL.
 </details>
 
 #### `MessageBlockRequest`
-* <details>
+<details>
 	<summary>Format</summary>
 	<table>
 		<tr><th>Field</th><th>Value</th></tr>
@@ -124,10 +124,7 @@ Also, please note: any data sent in JSON form must not contain NULL.
 </details>
 
 #### `NewMessageRequest`
-#### `RequestNewRooomMessages`
-* This type is for requesting messages to update the client's list of messages after being offline for some time
-* When a client sends this type, a server should respond back with every `RoomMessage` sent since the provided ID was issued
-* <details>
+<details>
 	<summary>Format</summary>
 	<table>
 		<tr><th>Field</th><th>Value</th></tr>
@@ -145,8 +142,7 @@ Also, please note: any data sent in JSON form must not contain NULL.
 #### `MakeGroup`
 * This type is sent to a server from a client to create a new group chat
 * Upon receiving the request, a server should create the group and add the user who requested the creation of the group and any users they specify to the group
-* A server responds with an error or the updated `UserData`
-* <details>
+<details>
 	<summary>Format</summary>
 	<table>
 		<tr><th>Field</th><th>Value</th></tr>
@@ -164,30 +160,30 @@ Also, please note: any data sent in JSON form must not contain NULL.
 #### `ChangeGroupInfo`
 * This type is used to set/change anything relating to a group
   * The group picture, description, or name can be changed with this data format
-* <details>
+<details>
   	<summary>Format</summary>
   	<table>
   		<tr><th>Field</th><th>Value</th></tr>
   		<tr>
-  			<td><code>groupID</code></td>
-  			<td>The ID of the group in question</td>
+  		    <td><code>groupID</code></td>
+  		    <td>The ID of the group in question</td>
   		</tr>
   		<tr>
   		    <td><code>whatToChange</code></td>
   		    <td>As the name implies, this field specifies what is being requested to change (either <code>name</code>, <code>description</code> or <code>pic</code>)</td>
   		</tr>
   		<tr>
-          	<td><code>data</code></td>
-          	<td>The data relating to what is specified in <code>whatToChange</code></td>
-       	</tr>
+          	    <td><code>data</code></td>
+          	    <td>The data relating to what is specified in <code>whatToChange</code></td>
+       	        </tr>
   	</table>
-  </details>
+</details>
   
-  #### `ChangeGroupUser`
+#### `ChangeGroupUser`
 * This type is used to perform maintenance on a user in a group
   * Can be used to add a user to a group, remove a user from a group, or change the nickname of a user in a group
   * If removing a user, a server should delete a group if nobody is left
-* <details>
+<details>
   	<summary>Format</summary>
   	<table>
   		<tr><th>Field</th><th>Value</th></tr>
@@ -208,7 +204,7 @@ Also, please note: any data sent in JSON form must not contain NULL.
           	<td>The new nickname for the user in question (if applicable)</td>
         </tr>
   	</table>
- </details>
+</details>
  
 #### `GroupMessage`
 * This type is used to send and receive messages from a group chat
@@ -216,7 +212,7 @@ Also, please note: any data sent in JSON form must not contain NULL.
 * When a message is sent from a client, the `timestamp` field is ignored by the server (as this is a server-generated field)
 * When a file is sent, the `msg` field is used for the file's caption
 * ALL JSON maps must include data for the user sending the message too
-* <details>
+<details>
 	<summary>Format</summary>
 	<table>
 		<tr><th>Field</th><th>Value</th></tr>
