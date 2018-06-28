@@ -13,7 +13,7 @@ A `name` is analagous to a function/method name in programming and `data` is ana
 ## User Accounts
 #### `login` (2 way)
 * Purpose: Sent from a client to login a user
-* Parameter: A [`LoginObject`](https://github.com/Tick-Talk/Protocol/blob/master/JSON-Objects.md#logindata)
+* Parameter: A [`LoginObject`](https://github.com/Tick-Talk/Protocol/blob/master/JSON-Objects.md#loginobject)
 * Return: The signed in user's [`UserData`](https://github.com/Tick-Talk/Protocol/blob/master/JSON-Objects.md#userdata)
 * Error: The error encountered as a string
 
