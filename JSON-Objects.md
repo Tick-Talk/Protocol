@@ -3,6 +3,8 @@ This file describes JSON objects that can be sent as parameters or return values
 Please note: any data sent in JSON form must not contain NULL.
 
 #### `LoginObject`
+* As of v6.1.0, this object includes two arrays of arrays that specify the last received message of groups and rooms
+  * A server should respond with all new messages sent since that last received message
 <details>
 	<summary>Format</summary>
 	<table>
@@ -18,6 +20,14 @@ Please note: any data sent in JSON form must not contain NULL.
 		<tr>
 			<td><code>protocol</code></td>
 			<td>The *major* protocol version as an int to check for compatibility</td>
+		</tr>
+		<tr>
+			<td><code>lastSeenGroupMsgIDs</code></td>
+			<td>An array of arrays, with index 0 being the groupID and index 1 being the last seen msg ID</td>
+		</tr>
+		<tr>
+			<td><code>lastSeenRoomMessageIDs</code></td>
+			<td>An array of arrays, with index 0 being the room and index 1 being the last seen msg ID</td>
 		</tr>
 	</table>
 </details>
@@ -119,22 +129,6 @@ Please note: any data sent in JSON form must not contain NULL.
 		<tr>
 			<td><code>lastMessageID</code></td>
 			<td>The last message, inclusive, that is in the block of messages. Blank string ("") for the most recent block of messages</td>
-		</tr>
-	</table>
-</details>
-
-#### `NewMessageRequest`
-<details>
-	<summary>Format</summary>
-	<table>
-		<tr><th>Field</th><th>Value</th></tr>
-		<tr>
-			<td><code>room</code></td>
-			<td>The room that the client is requesting messages from</td>
-		</tr>
-		<tr>
-			<td><code>id</code></td>
-			<td>The message ID of the last received message, so all newer messages will be sent</td>
 		</tr>
 	</table>
 </details>
