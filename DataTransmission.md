@@ -54,15 +54,11 @@ A `name` is analagous to a function/method name in programming and `data` is ana
 * Purpose: To get a block (a set) of ~1000 room messages from the server, for when a user exhausts the client's cache (if there is any at all)
 * Parameter: A [`MessageBlockRequest`](https://github.com/Tick-Talk/Protocol/blob/master/JSON-Objects.md#messageblockrequest) object
 
-#### `getNewRoomMessages` (1 way)
-* Purpose: To get any new messages sent after a client has been offline for some time
-* Parameter: A [`NewMessageRequest`](https://github.com/Tick-Talk/Protocol/blob/master/JSON-Objects.md#newmessagerequest) object
-
 ## Group Chats (& PMs)
 #### `makeGroup` (2 way)
 * Purpose: To create a new group chat
 * Parameter: A [`MakeGroup`](https://github.com/Tick-Talk/Protocol/blob/master/JSON-Objects.md#makegroup) object
-* Return: A blank string (getting a return indicates success)
+* Return: An updated [`UserData`](https://github.com/Tick-Talk/Protocol/blob/master/JSON-Objects.md#userdata) object
 * Error: The error encountered as a string
 
 #### `changeGroupInfo` (2 way)
@@ -90,7 +86,3 @@ A `name` is analagous to a function/method name in programming and `data` is ana
 #### `getGroupMessageBlock` (1 way)
 * Purpose: To get a block (a set) of ~1000 group messages from the server, for when a user exhausts the client's cache (if there is any at all)
 * Parameter: A [`MessageBlockRequest`](https://github.com/Tick-Talk/Protocol/blob/master/JSON-Objects.md#messageblockrequest) object
-
-#### `getNewGroupMessages` (1 way)
-* Purpose: To get any new messages sent after a client has been offline for some time
-* Parameter: A [`NewMessageRequest`](https://github.com/Tick-Talk/Protocol/blob/master/JSON-Objects.md#newmessagerequest) object
