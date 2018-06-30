@@ -26,7 +26,7 @@ Please note: any data sent in JSON form must not contain NULL.
 			<td>An array of arrays, with index 0 being the groupID and index 1 being the last seen msg ID</td>
 		</tr>
 		<tr>
-			<td><code>lastSeenRoomMessageIDs</code></td>
+			<td><code>lastSeenRoomMsgIDs</code></td>
 			<td>An array of arrays, with index 0 being the room and index 1 being the last seen msg ID</td>
 		</tr>
 	</table>
