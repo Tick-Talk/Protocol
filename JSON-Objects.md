@@ -95,6 +95,10 @@ Please note: any data sent in JSON form must not contain NULL.
 			<td>The alphanumeric ID of the message that allows it to be sorted amongst other messages</td>
 		</tr>
 		<tr>
+			<td><code>username</code></td>
+			<td>The username of the sender</td>
+		</tr>
+		<tr>
 			<td><code>timestamp</code></td>
 			<td>The timestamp is the time in seconds at UTC (the server generates this field)</td>
 		</tr>
@@ -217,6 +221,10 @@ Please note: any data sent in JSON form must not contain NULL.
 		<tr>
 			<td><code>id</code></td>
 			<td>The alphanumeric ID of the message that allows it to be sorted amongst other messages</td>
+		</tr>
+		<tr>
+			<td><code>username</code></td>
+			<td>The username of the sender</td>
 		</tr>
 		<tr>
 			<td><code>timestamp</code></td>
